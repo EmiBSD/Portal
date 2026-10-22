@@ -6,19 +6,31 @@ description: How to report a bug, ask a question or propose a change to EmiBSD, 
 
 ## Issues
 
-Bugs, questions and proposals go to the
-[issue tracker]({{ site.repo }}/issues). A useful report says which commit you built, which
-`just` recipe you ran, and includes the serial output from QEMU.
+Bugs, questions and proposals go to the [Kernel issue tracker]({{ site.repo }}/issues), in
+English; its forms ask for what is needed to reproduce. A useful report says which commit you
+built, which `just` recipe you ran, and includes the serial output from QEMU.
 
 A difference from OpenBSD's behaviour is a bug, even a small one: the error number a system
 call returns, a line a utility prints, a sysctl value. If you can, say what OpenBSD does in the
-same case.
+same case. A problem that is also in the faithful port can go to
+[LandingZone's issues]({{ site.repo_lz }}/issues) instead.
 
-Before a pull request, open an issue to agree on it. Every change follows the repository's
-rules: the provenance of each file is recorded, licence notices are kept whole, and new
-`unsafe` is allowed only in the `hal` crate, with a soundness argument. The rules are in
-[`.claude/rules/`]({{ site.repo }}/tree/main/.claude/rules) and
-[CLAUDE.md]({{ site.repo }}/blob/main/CLAUDE.md).
+## Security
+
+Report a vulnerability privately, never in a public issue:
+[Report a vulnerability]({{ site.repo }}/security/advisories/new) on the Kernel repository. The
+policy is [SECURITY.md]({{ site.repo }}/blob/main/.github/SECURITY.md).
+
+## Pull requests
+
+External pull requests are not accepted for now. Every change follows a fixed process: the
+provenance of each file is recorded, licence notices are kept whole, new `unsafe` is allowed
+only in the `hal` crate with a soundness argument, the system-call ABI stays byte-identical,
+and every merge is reviewed. If you have a fix, describe it in an issue (a diff in the issue is
+fine) and it will be applied with credit. The details are in
+[CONTRIBUTING.md]({{ site.repo }}/blob/main/.github/CONTRIBUTING.md), and the rules every change
+follows in [CLAUDE.md]({{ site.repo }}/blob/main/CLAUDE.md) and
+[`.claude/rules/`]({{ site.repo }}/tree/main/.claude/rules).
 
 ## Discussions and community
 
@@ -49,8 +61,8 @@ machines are welcome, since its behaviour is the specification.
   <dt>Is there a release, an image or a package?</dt>
   <dd>No. You build it from the repository; see <a href="{{ '/docs/' | relative_url }}">Docs</a>.</dd>
 
-  <dt>Why two repositories?</dt>
-  <dd><a href="{{ site.repo_lz }}">EmiBSD.LZ</a> ports OpenBSD faithfully, file by file; EmiBSD redesigns what LZ ported. Keeping them apart keeps the faithful port checkable against the C. See <a href="{{ '/process/' | relative_url }}">Process</a>.</dd>
+  <dt>Why two repositories, LandingZone and Kernel?</dt>
+  <dd><a href="{{ site.repo_lz }}">LandingZone</a> (formerly EmiBSD.LZ) ports OpenBSD faithfully, file by file; <a href="{{ site.repo }}">Kernel</a> redesigns what LandingZone ported. Keeping them apart keeps the faithful port checkable against the C. See <a href="{{ '/process/' | relative_url }}">Process</a>.</dd>
 
   <dt>Is AI used to write the code?</dt>
   <dd>Yes. The redesign is carried out by AI coding agents under fixed roles and written rules; one maintainer takes the decisions and approves every commit.</dd>

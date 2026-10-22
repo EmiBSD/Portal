@@ -14,14 +14,14 @@ the first `cargo` command. No nightly features are used.
 ```sh
 brew install rustup qemu limine just
 git clone {{ site.repo }}
-cd EmiBSD
+cd Kernel
 just build        # the kernel for the architectures in EMIBSD_ARCHS (arm64 by default)
 just run-arm64    # boot it in QEMU, serial console on stdio
 ```
 
 Until milestone N10, only arm64 is built and tested; amd64 is frozen and its boots are reported
 as skipped. The step-by-step setup, including the toolchain for OpenBSD's userland, is
-[docs/SETUP.md]({{ site.repo }}/blob/main/docs/SETUP.md) in the repository.
+[docs/SETUP.md]({{ site.repo }}/blob/main/docs/SETUP.md) in the Kernel repository.
 
 ## Test
 
@@ -44,12 +44,12 @@ firmware, the disks and the expected output.
 sys/kernel/      crate kernel: every decision of the OS; #![forbid(unsafe_code)]
 sys/abi/         crate abi: OpenBSD's system-call interface, the module abi_openbsd.ko; forbid, no logic
 sys/hal/         crate hal: the hardware (arch/arm64, arch/amd64, machine) and the runtime; the only unsafe
-sys/             package bsd: the LZ tree (kern, dev, net, netinet, ufs, ...), replaced subsystem by subsystem
+sys/             package bsd: the LandingZone tree (kern, dev, net, netinet, ufs, ...), replaced subsystem by subsystem
 sys/stand/       the boot loaders: boot(8) and efiboot, separate binaries
 sys/lib/         leaf crates: libkern, libz
 tools/xtask/     host tooling: image, qemu, smoke, lz, unsafe-report, diff-openbsd, ...
-lineage.toml     what every Rust file derives from in EmiBSD.LZ
-lz-sync.toml     one triage record per LZ commit after the pin
+lineage.toml     what every Rust file derives from in LandingZone
+lz-sync.toml     one triage record per LandingZone commit after the pin
 ```
 
 Generic code (`kern`, `dev`, `net`, ...) reaches architecture code only through one interface,
@@ -58,7 +58,7 @@ Generic code (`kern`, `dev`, `net`, ...) reaches architecture code only through 
 The kernel boots from its own boot(8) and efiboot, or from Limine, and runs OpenBSD's userland
 from a ramdisk or from an installed disk.
 
-## Further reading in the repository
+## Further reading in the Kernel repository
 
 These are the project's working documents; they change with every milestone.
 

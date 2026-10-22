@@ -19,10 +19,10 @@ packets and run TLS on the Rust kernel, the port is doing its job.
 
 The work happens in two stages, in two repositories:
 
-1. **Fidelity.** [EmiBSD.LZ]({{ site.repo_lz }}) is a file-by-file port of the OpenBSD kernel to
+1. **Fidelity.** [LandingZone]({{ site.repo_lz }}) (formerly EmiBSD.LZ) is a file-by-file port of the OpenBSD kernel to
    Rust. It keeps the C's structure, names and control flow, so every Rust file can be checked
    against the C file it came from.
-2. **Redesign.** [EmiBSD]({{ site.repo }}) takes what LZ ported and rebuilds the inside, one
+2. **Redesign.** [Kernel]({{ site.repo }}) takes what LandingZone ported and rebuilds the inside, one
    subsystem at a time, with Rust's ownership in place of the C's conventions.
 
 Three things are never traded away during the redesign:
@@ -31,7 +31,7 @@ Three things are never traded away during the redesign:
   numbers stay byte-identical. OpenBSD's userland runs unmodified.
 - **Measured behaviour.** Every change is checked against boots in QEMU and against the same
   scenarios run on a real OpenBSD. See [Process]({{ '/process/' | relative_url }}).
-- **Provenance and licences.** Every file says which LZ files (and so which OpenBSD C files) it
+- **Provenance and licences.** Every file says which LandingZone files (and so which OpenBSD C files) it
   derives from, and keeps their copyright notices whole.
 
 The goals, in priority order: safety, then maintainability, then performance. A performance
@@ -57,7 +57,7 @@ If you want a secure, supported operating system, use [OpenBSD](https://www.open
   (every decision of the OS) and `abi` (the system-call interface) carry
   `#![forbid(unsafe_code)]`: the compiler refuses to build them with a single `unsafe` block.
   Of the new crates, only `hal`, the hardware layer, may contain `unsafe`, and every site there
-  has a written soundness argument. The ported LZ tree, still most of the kernel today, keeps
+  has a written soundness argument. The ported LandingZone tree, still most of the kernel today, keeps
   its `unsafe` until each subsystem is replaced; the [Status]({{ '/status/' | relative_url }})
   page has the numbers.
 - **Locks that own their data.** In the redesigned code, a structure guarded by a lock lives

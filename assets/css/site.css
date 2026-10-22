@@ -157,6 +157,19 @@ hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 }
 .notice p:last-child { margin-bottom: 0; }
 
+/* Button (Support page) */
+
+a.button {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+}
+a.button:hover { filter: brightness(1.1); }
+
 /* Home */
 
 .hero {

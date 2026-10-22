@@ -17,6 +17,7 @@ from them at build time.
 | `news/index.md`, `news/_posts/` | `/news/` | News |
 | `docs-site.md` | `/docs/` | Docs |
 | `contributing.md` | `/contributing/` | Contributing |
+| `support.md` | `/support/` | footer only |
 
 The navigation is the `nav` list in `_config.yml`; keep it at seven entries. A news entry is a
 file `news/_posts/YYYY-MM-DD-slug.md` with a `title` (and an optional `description`) in its

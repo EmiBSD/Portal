@@ -170,6 +170,15 @@ a.button {
 }
 a.button:hover { filter: brightness(1.1); }
 
+/* The Sponsor button in the header, beside the navigation (not one of its seven entries) */
+
+.site-header a.sponsor {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.site-header nav { margin-left: auto; }
+
 /* Home */
 
 .hero {
@@ -268,4 +277,6 @@ dl dd { margin: 0.2rem 0 0; }
   .hero h1 { font-size: 1.7rem; }
   .hero .tagline { font-size: 1.02rem; }
   .cards { grid-template-columns: 1fr; }
+  .site-header a.sponsor { order: 2; margin-left: auto; }
+  .site-header nav { order: 3; flex-basis: 100%; margin-left: 0; }
 }

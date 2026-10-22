@@ -41,5 +41,5 @@ The `Gemfile` pins the Jekyll, Liquid, kramdown and jekyll-feed versions of GitH
 
 Every push to `main` runs `.github/workflows/jekyll.yml`, which builds the site and deploys it to
 GitHub Pages (**Settings > Pages > Source: GitHub Actions**). `CNAME` holds `www.emibsd.org`,
-and `_config.yml` sets `url: "https://www.emibsd.org"` and `baseurl: ""`; `emibsd.org`
-redirects to `www`.
+and `_config.yml` sets `url: "https://www.emibsd.org"` and `baseurl: ""`. The DNS for `emibsd.org` points `www` at GitHub Pages (CNAME to
+`emibsd.github.io`) and the apex at GitHub's Pages addresses, which redirect to `www`.

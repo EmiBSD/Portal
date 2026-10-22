@@ -11,8 +11,8 @@ baseurl: ""
 lang: en
 timezone: UTC
 
-repo: https://github.com/enavarre-cl/EmiBSD
-repo_lz: https://github.com/enavarre-cl/EmiBSD.LZ
+repo: https://github.com/EmiBSD/Kernel
+repo_lz: https://github.com/EmiBSD/LandingZone
 
 markdown: kramdown
 kramdown:

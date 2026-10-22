@@ -1,0 +1,70 @@
+# The public site of EmiBSD (https://www.emibsd.org). Built by GitHub Pages' own Jekyll;
+# see README.md for how it is published. Nothing here reads ../docs/.
+
+title: EmiBSD
+tagline: A port of the OpenBSD -current kernel to Rust.
+description: >-
+  An operating system in Rust, grown from the faithful port of the OpenBSD kernel.
+  Pre-alpha: it runs only in QEMU.
+url: "https://www.emibsd.org"
+baseurl: ""
+lang: en
+timezone: UTC
+
+repo: https://github.com/enavarre-cl/EmiBSD
+repo_lz: https://github.com/enavarre-cl/EmiBSD.LZ
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter_opts:
+    disable: true
+
+permalink: pretty
+
+plugins:
+  - jekyll-feed
+
+feed:
+  path: news/feed.xml
+
+# Jekyll 3 replaces its default exclude list when this key is set, so it is repeated here.
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .bundle
+  - .jekyll-cache
+  - .sass-cache
+  - node_modules
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      permalink: /news/:year/:month/:day/:title/
+
+# The navigation: seven entries, no more.
+nav:
+  - title: Home
+    url: /
+  - title: About
+    url: /about/
+  - title: Process
+    url: /process/
+  - title: Status
+    url: /status/
+  - title: News
+    url: /news/
+  - title: Docs
+    url: /docs/
+  - title: Contributing
+    url: /contributing/

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="{{ site.lang | default: 'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% if page.url == "/" %}{% assign doc_title = site.title | append: " — " | append: site.tagline %}{% else %}{% assign doc_title = page.title | append: " · " | append: site.title %}{% endif %}
+  <title>{{ doc_title }}</title>
+  <meta name="description" content="{{ page.description | default: page.excerpt | default: site.description | strip_html | normalize_whitespace | truncate: 160 }}">
+  <meta name="color-scheme" content="light dark">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <link rel="icon" type="image/png" href="{{ '/assets/img/favicon.png' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
+  {% feed_meta %}
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="{{ '/' | relative_url }}">
+        <img src="{{ '/assets/img/favicon.png' | relative_url }}" alt="" width="28" height="28">
+        <span>{{ site.title }}</span>
+      </a>
+      <nav aria-label="Main">
+        <ul>
+          {% for item in site.nav %}
+          {% assign active = false %}
+          {% if item.url == "/" %}{% if page.url == "/" %}{% assign active = true %}{% endif %}
+          {% elsif page.url contains item.url %}{% assign active = true %}{% endif %}
+          <li><a href="{{ item.url | relative_url }}"{% if active %} aria-current="page"{% endif %}>{{ item.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="wrap">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>
+        EmiBSD's own code is under the <a href="{{ site.repo }}/blob/main/LICENSE">ISC licence</a>;
+        files derived from OpenBSD keep their original BSD, ISC and other notices, whole.
+      </p>
+      <p>
+        Built on the work of the <a href="https://www.openbsd.org/">OpenBSD</a> project, whose
+        kernel and userland are its specification. EmiBSD is not affiliated with or endorsed by
+        OpenBSD.
+      </p>
+      <p><a href="{{ site.repo }}">Source on GitHub</a> · <a href="{{ '/news/feed.xml' | relative_url }}">News feed</a></p>
+    </div>
+  </footer>
+</body>
+</html>

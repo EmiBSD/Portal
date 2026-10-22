@@ -35,8 +35,6 @@ The maintainer's own time is not paid by sponsorships.
 | **$25** | the above, and your name on this page |
 | **$100** | the above, and a mention in the monthly news post, with a link |
 
-One-time sponsorships of any amount are welcome too.
-
 ## Sponsors
 
 Nobody yet. The first names will appear here.

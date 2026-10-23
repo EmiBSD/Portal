@@ -187,11 +187,10 @@ a.button:hover { filter: brightness(1.1); }
   gap: 1.25rem;
   margin: 0.5rem 0 1.25rem;
 }
+.hero picture { flex: none; line-height: 0; }
 .hero img {
-  flex: none;
-  width: 112px;
+  width: 150px;
   height: auto;
-  border-radius: 12px;
 }
 .hero h1 { margin: 0 0 0.25rem; font-size: 2.1rem; }
 .hero .tagline { margin: 0 0 0.35rem; font-size: 1.15rem; }
@@ -273,7 +272,7 @@ dl dd { margin: 0.2rem 0 0; }
   body { font-size: 16px; }
   h1 { font-size: 1.6rem; }
   .hero { gap: 0.9rem; }
-  .hero img { width: 76px; }
+  .hero img { width: 100px; }
   .hero h1 { font-size: 1.7rem; }
   .hero .tagline { font-size: 1.02rem; }
   .cards { grid-template-columns: 1fr; }

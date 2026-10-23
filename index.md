@@ -12,7 +12,7 @@ description: EmiBSD, a port of the OpenBSD -current kernel to Rust. Pre-alpha; i
   <div>
     <h1>EmiBSD <span class="badge">pre-alpha</span></h1>
     <p class="tagline">A port of the OpenBSD -current kernel to Rust.</p>
-    <p class="sub">An operating system in Rust, grown from the faithful port of the OpenBSD kernel. Ferffy, the mascot, is half Ferris (Rust's crab), half Puffy (OpenBSD's pufferfish).</p>
+    <p class="sub">An operating system in Rust, grown from the faithful port of the OpenBSD kernel. Ferffy, the mascot, is the child of Ferris, Rust's crab, and Puffy, OpenBSD's pufferfish: the claws from one parent, the spikes from the other.</p>
   </div>
 </div>
 
@@ -27,7 +27,7 @@ as the goal. Milestones N0 to N3 (foundations and memory) are met; N4, processes
 scheduling, is under way.
 
 <ul class="cards">
-  <li><a href="{{ '/about/' | relative_url }}"><strong>About</strong><span>Why it exists, fidelity first, and what Rust brings.</span></a></li>
+  <li><a href="{{ '/about/' | relative_url }}"><strong>About</strong><span>Why it exists, how it started, and what Rust brings.</span></a></li>
   <li><a href="{{ '/process/' | relative_url }}"><strong>Process</strong><span>From the 1:1 port to the redesign, and who does the work.</span></a></li>
   <li><a href="{{ '/status/' | relative_url }}"><strong>Status</strong><span>Each kernel subsystem: moved, in progress or pending.</span></a></li>
   <li><a href="{{ '/contributing/' | relative_url }}"><strong>Contributing</strong><span>Issues, target hardware, and a short FAQ.</span></a></li>

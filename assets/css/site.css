@@ -80,7 +80,7 @@ a:hover { text-decoration-thickness: 2px; }
   font-weight: 700;
   text-decoration: none;
 }
-.brand img { border-radius: 6px; }
+.brand picture { display: flex; }
 nav ul {
   display: flex;
   flex-wrap: wrap;

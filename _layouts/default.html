@@ -17,7 +17,10 @@
   <header class="site-header">
     <div class="wrap">
       <a class="brand" href="{{ '/' | relative_url }}">
-        <img src="{{ '/assets/img/favicon.png' | relative_url }}" alt="" width="28" height="28">
+        <picture>
+          <source srcset="{{ '/assets/img/ferffy-lines-white.svg' | relative_url }}" media="(prefers-color-scheme: dark)">
+          <img src="{{ '/assets/img/ferffy-lines-black.svg' | relative_url }}" alt="" width="38" height="28">
+        </picture>
         <span>{{ site.title }}</span>
       </a>
       <nav aria-label="Main">

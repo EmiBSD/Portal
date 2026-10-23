@@ -1,6 +1,6 @@
 ---
 title: About
-description: Why EmiBSD exists, its philosophy of fidelity first and optimisation after, its relation to OpenBSD, and what Rust brings.
+description: Why EmiBSD exists, how it started, its philosophy of fidelity first and optimisation after, its relation to OpenBSD, and what Rust brings.
 ---
 # About EmiBSD
 
@@ -14,6 +14,23 @@ OpenBSD is the kernel chosen for the experiment. Its code is coherent and carefu
 behaviour is well documented in its manual pages, and it comes with a complete userland. That
 userland is the test: if OpenBSD's own unmodified binaries boot, log in, mount disks, filter
 packets and run TLS on the Rust kernel, the port is doing its job.
+
+## How it started
+
+That question came second. EmiBSD began as a proof of concept for a broader one: how far can
+an AI-assisted migration, run with Claude Code, go on a genuinely hard problem? A kernel was
+chosen because it is about as hard as migrations get: a large, long-lived, concurrent code
+base, with hardware underneath, a whole userland on top, and no room for an approximate
+result.
+
+There was also a personal reason. OpenBSD is the maintainer's favourite operating system, and
+EmiBSD is an attempt to keep what makes it so: the same system, with the same behaviour, in a
+language designed for memory safety. It does not set out to replace OpenBSD. It is one
+person's reading of OpenBSD's essence, carried into Rust.
+
+The process grew with the experiment: written rules, agents with fixed roles, every step
+checked against OpenBSD's behaviour, one maintainer taking the decisions. How it works today is
+described on the [Process]({{ '/process/' | relative_url }}) page.
 
 ## Fidelity first, optimisation after
 
@@ -72,3 +89,15 @@ If you want a secure, supported operating system, use [OpenBSD](https://www.open
 Rust does not make a kernel correct. It moves a class of bugs (use after free, data races,
 out-of-bounds access) from review to compile time, in the parts written in safe Rust. The rest
 is tested the old way.
+
+## Thanks
+
+EmiBSD would not exist without the OpenBSD project and its community. Decades of careful,
+patient work went into a kernel written to be read, a userland that is complete and coherent,
+manual pages that say what the code actually does, and a culture that treats correctness and
+security as the default rather than as a feature. That work is the ground this project stands
+on, and the reason it could be attempted at all.
+
+To every OpenBSD developer, past and present, and to everyone who has tested, reported,
+documented and supported it: thank you. Whatever EmiBSD gets right, it learned from you;
+whatever it gets wrong is its own.

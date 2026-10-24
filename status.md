@@ -8,18 +8,18 @@ description: Where the EmiBSD redesign stands, subsystem by subsystem - moved in
 kernel is still the 1:1 port inherited from LandingZone. amd64 builds are frozen until milestone
 N10. There is no release.
 
-The tables below come from the [Kernel]({{ site.repo }}) repository at commit `6dbe7654`
-(2026-10-22): the files in each crate and directory, and the `unsafe` counts printed by
+The tables below come from the [Kernel]({{ site.repo }}) repository at commit `480c82e1`
+(2026-10-23): the files in each crate and directory, and the `unsafe` counts printed by
 `cargo xtask unsafe-report`.
 
 ## The crates today
 
 | Crate | Files | `unsafe` | Note |
 |---|---:|---:|---|
-| `kernel` | 66 | 0 | `#![forbid(unsafe_code)]`: the compiler refuses any |
-| `abi` | 4 | 0 | `#![forbid(unsafe_code)]`; 44 of the 331 system-call entries handled natively |
-| `hal` | 124 | 140 | the only crate allowed `unsafe`, each site with a written proof |
-| `bsd` (the LandingZone tree) | 1,063 | 9,765 | shrinks as subsystems move out; deleted at N9 |
+| `kernel` | 86 | 0 | `#![forbid(unsafe_code)]`: the compiler refuses any |
+| `abi` | 4 | 0 | `#![forbid(unsafe_code)]`; 104 of the 331 system-call entries handled natively |
+| `hal` | 133 | 157 | the only crate allowed `unsafe`, each site with a written proof |
+| `bsd` (the LandingZone tree) | 1,056 | 9,544 | shrinks as subsystems move out; deleted at N9 |
 
 ## Milestones
 
@@ -29,7 +29,7 @@ The tables below come from the [Kernel]({{ site.repo }}) repository at commit `6
 | N1 Leaves | libkern, libz, the crypto primitives | <span class="state state-done">done</span> 2026-10-09 |
 | N2 Foundations | the `kernel`, `abi` and `hal` crates, the runtime, pipe(2) | <span class="state state-done">done</span> 2026-10-16 |
 | N3 Memory | uvm into `kernel::vm`, the pmaps into `hal` | <span class="state state-done">done</span> 2026-10-18 |
-| N4 Processes and scheduling | timeouts, processes, descriptors, kqueue, the scheduler, signals, tty, clocks, sysctl | <span class="state state-wip">in progress</span> (N4.1–N4.5a merged) |
+| N4 Processes and scheduling | timeouts, processes, descriptors, kqueue, the scheduler, signals, tty, clocks, sysctl | <span class="state state-wip">in progress</span> (N4.1–N4.8a merged; N4.8b under way) |
 | N5 VFS and file systems | the VFS layer, ufs, nfs, tmpfs, msdosfs, cd9660, ntfs | <span class="state state-todo">pending</span> |
 | N6 Network stack | interfaces, routing, IPv4, IPv6, sockets | <span class="state state-todo">pending</span> |
 | N7 Devices | the driver model, then every bus and driver | <span class="state state-todo">pending</span> |
@@ -55,27 +55,31 @@ The tables below come from the [Kernel]({{ site.repo }}) repository at commit `6
 | kqueue, select(2), poll(2) | `event.rs`, `select.rs` | `sys/kern/kern_event.rs`, `sys/kern/sys_generic.rs` | <span class="state state-done">done</span> N4.4 |
 | Scheduler: sleep and run queues, idle, priorities, kernel threads | `sched.rs`, `thread.rs` | `sys/kern/kern_sched.rs`, `sched_bsd.rs`, `kern_synch.rs`, `kern_kthread.rs` | <span class="state state-done">done</span> N4.5a |
 | Context switch, per-CPU core, scheduler lock (arm64) | `sys/hal/` | `sys/arch/arm64/` | <span class="state state-done">done</span> N4.5a |
+| Signals and SIGIO; spl, soft interrupts, the kernel lock and the mutex | `sig.rs`, `sigio.rs`; `sys/hal/` | `sys/kern/kern_sig.rs`, `sys/arch/arm64/` | <span class="state state-done">done</span> N4.5b+c |
+| fork, exit, the credential and resource calls, accounting | `fork.rs`, `exit.rs`, `prot.rs`, `acct.rs` | `sys/kern/kern_fork.rs`, `kern_exit.rs`, `kern_prot.rs`, `kern_resource.rs`, `kern_acct.rs` | <span class="state state-done">done</span> N4.6a |
+| sysctl(2) core | `sysctl.rs` | `sys/kern/kern_sysctl.rs` | <span class="state state-done">done</span> N4.6b |
+| futex(2) | `futex.rs` | `sys/kern/sys_futex.rs` | <span class="state state-done">done</span> N4.6c |
+| Message buffer, /dev/klog, sendsyslog(2) | `log.rs` | `sys/kern/subr_log.rs` | <span class="state state-done">done</span> N4.7a |
+| Terminals, clists, line disciplines, pseudo-terminals | `tty.rs`, `termios.rs`, `clist.rs`, `pty.rs` | `sys/kern/tty*.rs` | <span class="state state-done">done</span> N4.7b |
+| Clocks and timecounters | `clock.rs`, `clockintr.rs`, `tc.rs`; `sys/hal/` | `sys/kern/kern_clock.rs`, `kern_clockintr.rs`, `kern_tc.rs` | <span class="state state-done">done</span> N4.8a |
+| Time system calls, reboot(2) | `time.rs`, `reboot.rs` | `sys/kern/kern_time.rs`, `kern_xxx.rs` | <span class="state state-done">done</span> N4 a6 |
 | Runtime: locks, pools, malloc, per-CPU data, user copies, module loader | `sys/hal/` | new | <span class="state state-done">done</span> N2–N3 |
 
 Some of these still leave a thinner file in `bsd` that connects the code not yet moved to the
-new one (`kern_event.rs`, `kern_descrip.rs`, `sys_generic.rs`, `kern_prot.rs`, and the four
-scheduler files); it goes when its last caller moves.
+new one (among them `kern_event.rs`, `kern_descrip.rs`, `sys_generic.rs`, the scheduler,
+signal, terminal and clock files); it goes when its last caller moves.
 
-### Still to move
+### In progress and still to move
 
 | Subsystem | Still in `bsd` | Milestone |
 |---|---|---|
-| fork, exit, signals | `sys/kern/kern_fork.rs`, `kern_exit.rs`, `kern_sig.rs` | <span class="state state-todo">pending</span> N4 |
-| Clocks and time | `sys/kern/kern_clock.rs`, `kern_clockintr.rs`, `kern_tc.rs`, `kern_time.rs` | <span class="state state-todo">pending</span> N4.7 |
-| sysctl(2) core | `sys/kern/kern_sysctl.rs` | <span class="state state-todo">pending</span> N4.7 |
-| Terminals and pseudo-terminals | `sys/kern/tty*.rs` (5 files) | <span class="state state-todo">pending</span> N4.6 |
-| Traps, system-call entry, copyin/copyout (arm64) | `sys/arch/arm64/` | <span class="state state-todo">pending</span> N4 |
+| Traps, system-call entry, copyin/copyout (arm64) | `sys/arch/arm64/` | <span class="state state-wip">in progress</span> N4.8b |
 | VFS layer | `sys/kern/vfs_*.rs` and `spec_vnops.rs` (14 files) | <span class="state state-todo">pending</span> N5 |
 | File systems | `sys/ufs/` (48), `sys/nfs/` (25), `sys/isofs/` (19), `sys/msdosfs/` (13), `sys/miscfs/` (13), `sys/ntfs/` (10), `sys/tmpfs/` (8) | <span class="state state-todo">pending</span> N5 |
 | Network stack | `sys/net/` (44), `sys/netinet/` (45), `sys/netinet6/` (26), sockets in `sys/kern/` (9) | <span class="state state-todo">pending</span> N6 |
 | Devices | `sys/dev/` (398), `sys/scsi/` (11), the bus and autoconf glue of `sys/arch/` | <span class="state state-todo">pending</span> N7 |
 | Security subsystems | pf, IPsec, WireGuard, softraid CRYPTO; `kern_pledge.rs`, `kern_unveil.rs`, `exec_*.rs`; the crypto framework in `sys/crypto/` (14) | <span class="state state-todo">pending</span> N8 |
-| What is left | `sys/ddb/` (11), `sys/conf/` (4), the headers of `sys/sys/` (83), the old pool, malloc and lock code | <span class="state state-todo">pending</span> N9 |
+| What is left | `sys/ddb/` (11), `sys/conf/` (4), the headers of `sys/sys/` (79), the old pool, malloc and lock code | <span class="state state-todo">pending</span> N9 |
 | amd64 | `sys/arch/amd64/`, `sys/hal/arch/amd64/` (frozen) | <span class="state state-todo">pending</span> N10 |
 
 Network and security directories list every file they hold today; the files of N8 leave last.

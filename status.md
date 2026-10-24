@@ -8,18 +8,24 @@ description: Where the EmiBSD redesign stands, subsystem by subsystem - moved in
 kernel is still the 1:1 port inherited from LandingZone. amd64 builds are frozen until milestone
 N10. There is no release.
 
-The tables below come from the [Kernel]({{ site.repo }}) repository at commit `480c82e1`
-(2026-10-23): the files in each crate and directory, and the `unsafe` counts printed by
-`cargo xtask unsafe-report`.
+The goal is a kernel with no `unsafe`: today the `kernel` and `abi` crates hold **0**, the
+hardware layer `hal` holds 157 (each with a written proof), and the ported LandingZone tree,
+`bsd`, still holds 9,544, falling as each subsystem moves out. Figures from the
+[Kernel]({{ site.repo }}) repository at commit `480c82e1` (2026-10-23); the
+[numbers per crate](#the-crates-today) are at the end of the page.
 
-## The crates today
+## What already works
 
-| Crate | Files | `unsafe` | Note |
-|---|---:|---:|---|
-| `kernel` | 86 | 0 | `#![forbid(unsafe_code)]`: the compiler refuses any |
-| `abi` | 4 | 0 | `#![forbid(unsafe_code)]`; 104 of the 331 system-call entries handled natively |
-| `hal` | 133 | 157 | the only crate allowed `unsafe`, each site with a written proof |
-| `bsd` (the LandingZone tree) | 1,056 | 9,544 | shrinks as subsystems move out; deleted at N9 |
+Everything the port could do when Kernel split from it still works, and the redesign may not
+change it. On arm64 in QEMU, with OpenBSD's own binaries:
+
+- **System:** boot to `login:`, rc(8), ksh(1), ddb(4), multiprocessor boots on two and four CPUs.
+- **Network:** ifconfig(8) and ping(8), pfctl(8), ipsecctl(8), TLS with ftp(1) and nc(1).
+- **Storage:** FFS, tmpfs, FAT, ISO 9660, ext2fs and FUSE; softraid(4) RAID 0/1/5/6 and CRYPTO;
+  NVMe and AHCI disks, USB storage.
+- **Devices:** USB keyboards, audio, the frame buffer console.
+
+Each line is checked by a scripted QEMU boot, the smoke tests, at every milestone close.
 
 ## Milestones
 
@@ -39,60 +45,47 @@ The tables below come from the [Kernel]({{ site.repo }}) repository at commit `4
 | N11 Verification | semantic `unsafe` count, idiomaticity scoring, OpenBSD's regress suite | <span class="state state-todo">pending</span> |
 | N12 Performance | the slowdowns left open after N3, on both architectures | <span class="state state-todo">pending</span> |
 
-## Subsystems
+## N4, the milestone in progress
 
-### Moved into the safe crates
+N4 moves processes and scheduling out of the LandingZone tree, one slice at a time; each slice
+is merged into Kernel's `main` after its review. The milestone closes when `sys/kern/` holds only
+the VFS, socket and security files of later milestones, and the full test suite passes.
 
-| Subsystem | Now in | From | Milestone |
+| Slice | What moves | State | Merged |
 |---|---|---|---|
-| Crypto primitives (ciphers, hashes, MACs) | `sys/kernel/crypto/` (20 files) | `sys/crypto/` | <span class="state state-done">done</span> N2 |
-| pipe(2) | `sys/kernel/pipe.rs` | `sys/kern/sys_pipe.rs` | <span class="state state-done">done</span> N2 |
-| Virtual memory (uvm) | `sys/kernel/vm/` (23 files) | `sys/uvm/` | <span class="state state-done">done</span> N3 |
-| Physical maps (pmap) | `sys/hal/pmap.rs` and `sys/hal/arch/` | `sys/arch/*/pmap*` | <span class="state state-done">done</span> N3 |
-| timeout(9), task(9), extent(9) | `timeout.rs`, `task.rs`, `extent.rs` | `sys/kern/` | <span class="state state-done">done</span> N4.1 |
-| Processes, credentials, limits | `proc.rs`, `cred.rs`, `resource.rs` | `sys/kern/` | <span class="state state-done">done</span> N4.2 |
-| File descriptors | `file.rs`, `descrip.rs`, `uio.rs` | `sys/kern/kern_descrip.rs` | <span class="state state-done">done</span> N4.3 |
-| kqueue, select(2), poll(2) | `event.rs`, `select.rs` | `sys/kern/kern_event.rs`, `sys/kern/sys_generic.rs` | <span class="state state-done">done</span> N4.4 |
-| Scheduler: sleep and run queues, idle, priorities, kernel threads | `sched.rs`, `thread.rs` | `sys/kern/kern_sched.rs`, `sched_bsd.rs`, `kern_synch.rs`, `kern_kthread.rs` | <span class="state state-done">done</span> N4.5a |
-| Context switch, per-CPU core, scheduler lock (arm64) | `sys/hal/` | `sys/arch/arm64/` | <span class="state state-done">done</span> N4.5a |
-| Signals and SIGIO; spl, soft interrupts, the kernel lock and the mutex | `sig.rs`, `sigio.rs`; `sys/hal/` | `sys/kern/kern_sig.rs`, `sys/arch/arm64/` | <span class="state state-done">done</span> N4.5b+c |
-| fork, exit, the credential and resource calls, accounting | `fork.rs`, `exit.rs`, `prot.rs`, `acct.rs` | `sys/kern/kern_fork.rs`, `kern_exit.rs`, `kern_prot.rs`, `kern_resource.rs`, `kern_acct.rs` | <span class="state state-done">done</span> N4.6a |
-| sysctl(2) core | `sysctl.rs` | `sys/kern/kern_sysctl.rs` | <span class="state state-done">done</span> N4.6b |
-| futex(2) | `futex.rs` | `sys/kern/sys_futex.rs` | <span class="state state-done">done</span> N4.6c |
-| Message buffer, /dev/klog, sendsyslog(2) | `log.rs` | `sys/kern/subr_log.rs` | <span class="state state-done">done</span> N4.7a |
-| Terminals, clists, line disciplines, pseudo-terminals | `tty.rs`, `termios.rs`, `clist.rs`, `pty.rs` | `sys/kern/tty*.rs` | <span class="state state-done">done</span> N4.7b |
-| Clocks and timecounters | `clock.rs`, `clockintr.rs`, `tc.rs`; `sys/hal/` | `sys/kern/kern_clock.rs`, `kern_clockintr.rs`, `kern_tc.rs` | <span class="state state-done">done</span> N4.8a |
-| Time system calls, reboot(2) | `time.rs`, `reboot.rs` | `sys/kern/kern_time.rs`, `kern_xxx.rs` | <span class="state state-done">done</span> N4 a6 |
-| Runtime: locks, pools, malloc, per-CPU data, user copies, module loader | `sys/hal/` | new | <span class="state state-done">done</span> N2–N3 |
+| N4.0 | Only arm64 built, booted and measured until N10 (the `EMIBSD_ARCHS` switch) | <span class="state state-done">done</span> | 2026-10-21 `7bfcdfe4` |
+| N4.1 | timeout(9), task(9), extent(9) | <span class="state state-done">done</span> | 2026-10-21 `e267f8f7` |
+| N4.2 | Processes, credentials, resource limits | <span class="state state-done">done</span> | 2026-10-22 `2afaf4ff` |
+| N4.3 | File descriptors | <span class="state state-done">done</span> | 2026-10-22 `dfda0cd1` |
+| N4.4 | kqueue, select(2), poll(2) | <span class="state state-done">done</span> | 2026-10-22 `f2639a31` |
+| N4.4b | The kqueue filters as a Rust trait (`Filter<G>`) | <span class="state state-done">done</span> | 2026-10-22 `e18b851b` |
+| N4.5a | The scheduler in `kernel`; the context switch and the per-CPU core in `hal` | <span class="state state-done">done</span> | 2026-10-22 `5c81b501` |
+| N4.5b+c | Signals and SIGIO; spl, soft interrupts, the kernel lock and the mutex in `hal` | <span class="state state-done">done</span> | 2026-10-22 `0e871047` |
+| N4.6a | fork, exit, the credential and resource calls, accounting | <span class="state state-done">done</span> | 2026-10-23 `decb50c0` |
+| N4.6b | sysctl(2)'s core | <span class="state state-done">done</span> | 2026-10-23 `68dafea0` |
+| N4.6c | futex(2) | <span class="state state-done">done</span> | 2026-10-22 `cb1b9192` |
+| N4.7a | The message buffer, /dev/klog, sendsyslog(2) | <span class="state state-done">done</span> | 2026-10-22 `ae0637ec` |
+| N4.7b | Terminals, clists, line disciplines, pseudo-terminals | <span class="state state-done">done</span> | 2026-10-23 `86c282a0` |
+| N4.8a | Clocks and timecounters | <span class="state state-done">done</span> | 2026-10-23 `53c4248f` |
+| a6 | The time system calls and reboot(2) handled natively | <span class="state state-done">done</span> | 2026-10-23 `480c82e1` |
+| N4.8b | Traps, the system-call entry, copyin/copyout (arm64); a security-reviewed area | <span class="state state-wip">in progress</span> |  |
+| N4.8d | Kernel page-table isolation (KPTI) | <span class="state state-todo">pending</span> |  |
+| Close | `just check`, `just ci`, `just ci-full` and `diff-openbsd` green; the tag `n4-processes` | <span class="state state-todo">pending</span> |  |
 
-Some of these still leave a thinner file in `bsd` that connects the code not yet moved to the
-new one (among them `kern_event.rs`, `kern_descrip.rs`, `sys_generic.rs`, the scheduler,
-signal, terminal and clock files); it goes when its last caller moves.
+Some moved parts still leave a thinner file in `bsd` that connects the code not yet moved to the
+new one; it goes when its last caller moves. Later milestones are listed above; each gets a
+table like this one when it starts.
 
-### In progress and still to move
+## The crates today
 
-| Subsystem | Still in `bsd` | Milestone |
-|---|---|---|
-| Traps, system-call entry, copyin/copyout (arm64) | `sys/arch/arm64/` | <span class="state state-wip">in progress</span> N4.8b |
-| VFS layer | `sys/kern/vfs_*.rs` and `spec_vnops.rs` (14 files) | <span class="state state-todo">pending</span> N5 |
-| File systems | `sys/ufs/` (48), `sys/nfs/` (25), `sys/isofs/` (19), `sys/msdosfs/` (13), `sys/miscfs/` (13), `sys/ntfs/` (10), `sys/tmpfs/` (8) | <span class="state state-todo">pending</span> N5 |
-| Network stack | `sys/net/` (44), `sys/netinet/` (45), `sys/netinet6/` (26), sockets in `sys/kern/` (9) | <span class="state state-todo">pending</span> N6 |
-| Devices | `sys/dev/` (398), `sys/scsi/` (11), the bus and autoconf glue of `sys/arch/` | <span class="state state-todo">pending</span> N7 |
-| Security subsystems | pf, IPsec, WireGuard, softraid CRYPTO; `kern_pledge.rs`, `kern_unveil.rs`, `exec_*.rs`; the crypto framework in `sys/crypto/` (14) | <span class="state state-todo">pending</span> N8 |
-| What is left | `sys/ddb/` (11), `sys/conf/` (4), the headers of `sys/sys/` (79), the old pool, malloc and lock code | <span class="state state-todo">pending</span> N9 |
-| amd64 | `sys/arch/amd64/`, `sys/hal/arch/amd64/` (frozen) | <span class="state state-todo">pending</span> N10 |
+Files and `unsafe` counts printed by `cargo xtask unsafe-report` at `480c82e1`.
 
-Network and security directories list every file they hold today; the files of N8 leave last.
-File counts are `.rs` files.
-
-## What already works
-
-Everything the port could do when Kernel split from it still works, and the redesign may not
-change it. On arm64 in QEMU, with OpenBSD's own binaries: boot to `login:`, ksh(1), rc(8),
-ifconfig(8) and ping(8), pfctl(8) and ipsecctl(8), TLS with ftp(1) and nc(1), FFS, tmpfs, FAT,
-ISO 9660, ext2fs and FUSE, softraid(4) RAID 0/1/5/6 and CRYPTO, NVMe, AHCI, USB storage and
-keyboards, audio, the frame buffer console, ddb(4), and multiprocessor boots on two and four
-CPUs.
+| Crate | Files | `unsafe` | Note |
+|---|---:|---:|---|
+| `kernel` | 86 | 0 | `#![forbid(unsafe_code)]`: the compiler refuses any |
+| `abi` | 4 | 0 | `#![forbid(unsafe_code)]`; 104 of the 331 system-call entries handled natively |
+| `hal` | 133 | 157 | the only crate allowed `unsafe`, each site with a written proof |
+| `bsd` (the LandingZone tree) | 1,056 | 9,544 | shrinks as subsystems move out; deleted at N9 |
 
 The detailed plan, with each milestone's exit criterion, is
 [ROADMAP.md]({{ site.repo }}/blob/main/docs/ROADMAP.md) in the Kernel repository; the day-to-day state

@@ -35,14 +35,34 @@ the latest five, `/news/` all of them, both through `_includes/news-list.html`, 
   and an optional `description` in its front matter; `/news/feed.xml` carries the posts only.
 - `title` and `url`, when there is no post: the line itself and where it links (a milestone's
   tag in Kernel, its closing commit in LandingZone).
-- `repo`: `Kernel` or `LandingZone`, shown before the line when the entry is a milestone of
-  that repository.
+- `repo`: `LandingZone`, shown before the line when the entry is a milestone of that repository.
 
-A milestone close adds its entry here, with the tag's or the commit's date, in the same change
-that updates `status.md`.
+Kernel's milestones are not written here: the list adds every met milestone of
+`_data/status.json` (its `date`, `url` and optional `post`), labelled `Kernel`, so a milestone
+close is recorded once, in that file.
 
-`status.md` is written from the Kernel repository: the file counts of each crate and directory
-and the totals of `cargo xtask unsafe-report`, at the commit it names. Update both together.
+## Status
+
+`status.md` renders `_data/status.json`, which holds what changes at a milestone close, taken
+from the Kernel repository at the commit it names:
+
+- `commit`, `date`, `at`: the commit the figures come from, its day, and what it was (`the
+  close of N4`).
+- `crates`: one object per crate, `name`, `files`, `unsafe` (the totals of `cargo xtask
+  unsafe-report`), `note`, and an optional `label` shown after the name.
+- `milestones`: one object per `N` milestone, `name`, `title`, `scope`; a met one has `date`
+  (the tag's, `git log -1 --date=iso-strict n<N>-<name>`) and `url` (the tag), and `post` when a
+  news post tells the story; one under way has `state: "in progress"`; the rest are pending.
+- `next`: the milestone under way, `name` and its `slices` (`slice`, `what`, optional `state`
+  `done` or `in progress`).
+
+The prose of `status.md` (what works, the next milestone's paragraph) is edited by hand when
+a milestone closes, in the same change as the data.
+
+The `site-updater` agent (`.claude/agents/site-updater.md`) makes all of these edits from the
+records of the two code repositories, checked out beside this one as `../Kernel` and
+`../LandingZone`: launch it with the tag of the close (`n5-vfs`) or the LandingZone commit.
+It builds the site, reports every figure with its source, and never pushes.
 
 ## Build locally
 

@@ -1,15 +1,21 @@
-{%- assign items = site.data.news | sort: "date" | reverse -%}
+{%- assign kernel = site.data.status.milestones | where_exp: "m", "m.date" -%}
+{%- assign items = site.data.news | concat: kernel | sort: "date" | reverse -%}
 {%- if include.limit -%}{%- assign items = items | slice: 0, include.limit -%}{%- endif -%}
 <ul class="post-list">
 {%- for item in items %}
+  {%- assign repo = item.repo -%}
+  {%- if item.name -%}{%- assign repo = "Kernel" -%}{%- endif -%}
   {%- if item.post -%}
     {%- assign post = site.posts | where: "slug", item.post | first -%}
     {%- assign title = post.title -%}
     {%- assign href = post.url | relative_url -%}
+  {%- elsif item.name -%}
+    {%- capture title %}{{ item.name }} {{ item.title }} met: {{ item.scope | remove: "`" }}{% endcapture -%}
+    {%- assign href = item.url -%}
   {%- else -%}
     {%- assign title = item.title -%}
     {%- assign href = item.url -%}
   {%- endif %}
-  <li><time datetime="{{ item.date }}">{{ item.date | slice: 0, 10 }}</time>{% if item.repo %}<span class="repo">{{ item.repo }}</span> {% endif %}<a href="{{ href }}">{{ title }}</a></li>
+  <li><time datetime="{{ item.date }}">{{ item.date | slice: 0, 10 }}</time>{% if repo %}<span class="repo">{{ repo }}</span> {% endif %}<a href="{{ href }}">{{ title }}</a></li>
 {%- endfor %}
 </ul>

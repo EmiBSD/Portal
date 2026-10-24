@@ -1,0 +1,40 @@
+{
+  "commit": "2d779661",
+  "date": "2026-10-24",
+  "at": "the close of N4",
+  "crates": [
+    {"name": "kernel", "files": 88, "unsafe": 0, "note": "`#![forbid(unsafe_code)]`: the compiler refuses any"},
+    {"name": "abi", "files": 4, "unsafe": 0, "note": "`#![forbid(unsafe_code)]`; 105 of the 331 system-call entries handled natively"},
+    {"name": "hal", "files": 145, "unsafe": 184, "note": "the only crate allowed `unsafe`, each site with a written proof"},
+    {"name": "bsd", "label": "the LandingZone tree", "files": 1049, "unsafe": 9490, "note": "shrinks as subsystems move out; deleted at N9"}
+  ],
+  "milestones": [
+    {"name": "N0", "title": "Bootstrap", "scope": "lineage records, tooling, the `unsafe` budget, the baseline", "date": "2026-10-09T04:31:58-03:00", "url": "https://github.com/EmiBSD/Kernel/releases/tag/n0-bootstrap"},
+    {"name": "N1", "title": "Leaves", "scope": "libkern, libz, the crypto primitives", "date": "2026-10-09T09:32:41-03:00", "url": "https://github.com/EmiBSD/Kernel/releases/tag/n1-leaves"},
+    {"name": "N2", "title": "Foundations", "scope": "the `kernel`, `abi` and `hal` crates, the runtime, pipe(2)", "date": "2026-10-16T22:38:19-03:00", "url": "https://github.com/EmiBSD/Kernel/releases/tag/n2-foundations"},
+    {"name": "N3", "title": "Memory", "scope": "uvm into `kernel::vm`, the pmaps into `hal`", "date": "2026-10-18T12:25:14-03:00", "url": "https://github.com/EmiBSD/Kernel/releases/tag/n3-memory"},
+    {"name": "N4", "title": "Processes and scheduling", "scope": "timeouts, processes, descriptors, kqueue, the scheduler, signals, tty, clocks, sysctl", "date": "2026-10-24T02:00:37-03:00", "url": "https://github.com/EmiBSD/Kernel/releases/tag/n4-processes", "post": "n4-met"},
+    {"name": "N5", "title": "VFS and file systems", "scope": "the VFS layer, ufs, nfs, tmpfs, msdosfs, cd9660, ntfs"},
+    {"name": "N6", "title": "Network stack", "scope": "interfaces, routing, IPv4, IPv6, sockets"},
+    {"name": "N7", "title": "Devices", "scope": "the driver model, then every bus and driver"},
+    {"name": "N8", "title": "Security subsystems", "scope": "pf, IPsec, WireGuard, pledge, unveil, exec, the crypto framework"},
+    {"name": "N9", "title": "Close", "scope": "the last of the LandingZone tree deleted, on arm64"},
+    {"name": "N10", "title": "amd64", "scope": "the frozen amd64 tree brought up to date"},
+    {"name": "N11", "title": "Verification", "scope": "semantic `unsafe` count, idiomaticity scoring, OpenBSD's regress suite"},
+    {"name": "N12", "title": "Performance", "scope": "the slowdowns left open after N3, on both architectures"}
+  ],
+  "next": {
+    "name": "N5",
+    "slices": [
+      {"slice": "first", "what": "The five bridges N4 left open (`Uptime`, `SysInfo`, `VmProc`, `PipeGlue`, `PipeFiles`)"},
+      {"slice": "first", "what": "The buffer queues (`kern_bufq`) over a typed `Buf`"},
+      {"slice": "1", "what": "The VFS core: `vfs_subr`, `vfs_bio`, `vfs_lockf`, `vfs_syscalls`, `vfs_lookup`, `vfs_vnops`, `vfs_cache`, `vfs_init`, `vfs_sync`, `vfs_getcwd`, `vfs_vops`, `vfs_default`, `spec_vnops`; the vnode and mount operations as Rust traits"},
+      {"slice": "2", "what": "`ufs`, `ffs` and `ext2fs` (43 files)"},
+      {"slice": "3", "what": "`nfs` (24 files), over the sockets still in `bsd` until N6"},
+      {"slice": "4", "what": "`isofs`: cd9660 and udf (16 files)"},
+      {"slice": "5", "what": "`msdosfs` (12 files) and `ntfs` (9 files)"},
+      {"slice": "6", "what": "`miscfs`: fuse, fifofs, deadfs (10 files), and `tmpfs` (7 files)"},
+      {"slice": "Close", "what": "`just check`, `just ci`, `just ci-full` and `diff-openbsd` green; the tag `n5-vfs`"}
+    ]
+  }
+}

@@ -11,7 +11,7 @@ N10. There is no release.
 The goal is a kernel with no `unsafe`: today the `kernel` and `abi` crates hold **0**, the
 hardware layer `hal` holds 184 (each with a written proof), and the ported LandingZone tree,
 `bsd`, still holds 9,490, falling as each subsystem moves out. Figures from the
-[Kernel]({{ site.repo }}) repository at commit `d58ce5c6` (2026-10-23); the
+[Kernel]({{ site.repo }}) repository at commit `b38843cf` (2026-10-23); the
 [numbers per crate](#the-crates-today) are at the end of the page.
 
 ## What already works
@@ -35,7 +35,7 @@ Each line is checked by a scripted QEMU boot, the smoke tests, at every mileston
 | N1 Leaves | libkern, libz, the crypto primitives | <span class="state state-done">done</span> 2026-10-09 |
 | N2 Foundations | the `kernel`, `abi` and `hal` crates, the runtime, pipe(2) | <span class="state state-done">done</span> 2026-10-16 |
 | N3 Memory | uvm into `kernel::vm`, the pmaps into `hal` | <span class="state state-done">done</span> 2026-10-18 |
-| N4 Processes and scheduling | timeouts, processes, descriptors, kqueue, the scheduler, signals, tty, clocks, sysctl | <span class="state state-wip">in progress</span> (N4.1–N4.8b merged; N4.8d and the close next) |
+| N4 Processes and scheduling | timeouts, processes, descriptors, kqueue, the scheduler, signals, tty, clocks, sysctl | <span class="state state-wip">in progress</span> (every slice merged; the close next) |
 | N5 VFS and file systems | the VFS layer, ufs, nfs, tmpfs, msdosfs, cd9660, ntfs | <span class="state state-todo">pending</span> |
 | N6 Network stack | interfaces, routing, IPv4, IPv6, sockets | <span class="state state-todo">pending</span> |
 | N7 Devices | the driver model, then every bus and driver | <span class="state state-todo">pending</span> |
@@ -69,7 +69,7 @@ the VFS, socket and security files of later milestones, and the full test suite 
 | N4.8a | Clocks and timecounters | <span class="state state-done">done</span> | 2026-10-23 `53c4248f` |
 | a6 | The time system calls and reboot(2) handled natively | <span class="state state-done">done</span> | 2026-10-23 `480c82e1` |
 | N4.8b | Traps, the system-call entry, copyin/copyout (arm64); a security-reviewed area | <span class="state state-done">done</span> | 2026-10-23 `d58ce5c6` |
-| N4.8d | Kernel page-table isolation (KPTI) | <span class="state state-todo">pending</span> |  |
+| N4.8d | Kernel page-table isolation (KPTI) for arm64 | <span class="state state-done">done</span> | 2026-10-23 `b38843cf` |
 | Close | `just check`, `just ci`, `just ci-full` and `diff-openbsd` green; the tag `n4-processes` | <span class="state state-todo">pending</span> |  |
 
 Some moved parts still leave a thinner file in `bsd` that connects the code not yet moved to the
@@ -78,7 +78,7 @@ table like this one when it starts.
 
 ## The crates today
 
-Files and `unsafe` counts printed by `cargo xtask unsafe-report` at `d58ce5c6`.
+Files and `unsafe` counts printed by `cargo xtask unsafe-report` at `b38843cf`.
 
 | Crate | Files | `unsafe` | Note |
 |---|---:|---:|---|

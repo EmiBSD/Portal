@@ -11,7 +11,7 @@ N10. There is no release.
 The goal is a kernel with no `unsafe`: today the `kernel` and `abi` crates hold **0**, the
 hardware layer `hal` holds 184 (each with a written proof), and the ported LandingZone tree,
 `bsd`, still holds 9,490, falling as each subsystem moves out. Figures from the
-[Kernel]({{ site.repo }}) repository at commit `b38843cf` (2026-10-23); the
+[Kernel]({{ site.repo }}) repository at commit `2d779661` (2026-10-24), the close of N4; the
 [numbers per crate](#the-crates-today) are at the end of the page.
 
 ## What already works
@@ -35,7 +35,7 @@ Each line is checked by a scripted QEMU boot, the smoke tests, at every mileston
 | N1 Leaves | libkern, libz, the crypto primitives | <span class="state state-done">done</span> 2026-10-09 |
 | N2 Foundations | the `kernel`, `abi` and `hal` crates, the runtime, pipe(2) | <span class="state state-done">done</span> 2026-10-16 |
 | N3 Memory | uvm into `kernel::vm`, the pmaps into `hal` | <span class="state state-done">done</span> 2026-10-18 |
-| N4 Processes and scheduling | timeouts, processes, descriptors, kqueue, the scheduler, signals, tty, clocks, sysctl | <span class="state state-wip">in progress</span> (every slice merged; the close next) |
+| N4 Processes and scheduling | timeouts, processes, descriptors, kqueue, the scheduler, signals, tty, clocks, sysctl | <span class="state state-done">done</span> 2026-10-24 |
 | N5 VFS and file systems | the VFS layer, ufs, nfs, tmpfs, msdosfs, cd9660, ntfs | <span class="state state-todo">pending</span> |
 | N6 Network stack | interfaces, routing, IPv4, IPv6, sockets | <span class="state state-todo">pending</span> |
 | N7 Devices | the driver model, then every bus and driver | <span class="state state-todo">pending</span> |
@@ -45,11 +45,20 @@ Each line is checked by a scripted QEMU boot, the smoke tests, at every mileston
 | N11 Verification | semantic `unsafe` count, idiomaticity scoring, OpenBSD's regress suite | <span class="state state-todo">pending</span> |
 | N12 Performance | the slowdowns left open after N3, on both architectures | <span class="state state-todo">pending</span> |
 
-## N4, the milestone in progress
+## N4, the last milestone closed
 
-N4 moves processes and scheduling out of the LandingZone tree, one slice at a time; each slice
-is merged into Kernel's `main` after its review. The milestone closes when `sys/kern/` holds only
-the VFS, socket and security files of later milestones, and the full test suite passes.
+N4 moved processes and scheduling out of the LandingZone tree, one slice at a time; each slice
+was merged into Kernel's `main` after its review. It was met on 2026-10-24 (tag
+[`n4-processes`]({{ site.repo }}/releases/tag/n4-processes)), on arm64:
+
+- `just check`, `just ci` (67 of 86 recipes; the 19 amd64-only ones wait for N10) and
+  `just ci-full` (the same on four CPUs, then the installer) all green.
+- `diff-openbsd`: 111 steps against a real OpenBSD, 108 equal, 3 expected differences,
+  0 unexpected.
+- 105 of the 331 system calls handled natively, from 17 when N4 started.
+- The cost: against N3, the page fault is 41 % slower, pipe 35 %, fork plus exec 24 %, fork
+  plus exit 19 %, a file read 11 % (QEMU, arm64). Recorded, and handed to N12, the
+  performance milestone.
 
 | Slice | What moves | State | Merged |
 |---|---|---|---|
@@ -70,15 +79,15 @@ the VFS, socket and security files of later milestones, and the full test suite 
 | a6 | The time system calls and reboot(2) handled natively | <span class="state state-done">done</span> | 2026-10-23 `480c82e1` |
 | N4.8b | Traps, the system-call entry, copyin/copyout (arm64); a security-reviewed area | <span class="state state-done">done</span> | 2026-10-23 `d58ce5c6` |
 | N4.8d | Kernel page-table isolation (KPTI) for arm64 | <span class="state state-done">done</span> | 2026-10-23 `b38843cf` |
-| Close | `just check`, `just ci`, `just ci-full` and `diff-openbsd` green; the tag `n4-processes` | <span class="state state-todo">pending</span> |  |
+| Close | `just check`, `just ci`, `just ci-full` and `diff-openbsd` green; the tag `n4-processes` | <span class="state state-done">done</span> | 2026-10-24 `2d779661` |
 
 Some moved parts still leave a thinner file in `bsd` that connects the code not yet moved to the
-new one; it goes when its last caller moves. Later milestones are listed above; each gets a
-table like this one when it starts.
+new one; it goes when its last caller moves. N5, VFS and file systems, is next; its table
+replaces this one when it starts.
 
 ## The crates today
 
-Files and `unsafe` counts printed by `cargo xtask unsafe-report` at `b38843cf`.
+Files and `unsafe` counts printed by `cargo xtask unsafe-report` at `2d779661`.
 
 | Crate | Files | `unsafe` | Note |
 |---|---:|---:|---|

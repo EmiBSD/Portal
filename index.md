@@ -12,7 +12,8 @@ description: EmiBSD, a port of the OpenBSD -current kernel to Rust. Pre-alpha; i
   <div>
     <h1>EmiBSD <span class="badge">pre-alpha</span></h1>
     <p class="tagline">A port of the OpenBSD -current kernel to Rust.</p>
-    <p class="sub">An operating system in Rust, grown from the faithful port of the OpenBSD kernel. Ferffy, the mascot, is the child of Ferris, Rust's crab, and Puffy, OpenBSD's pufferfish: the claws from one parent, the spikes from the other.</p>
+    <p class="sub">OpenBSD's own userland runs on it unmodified; inside, the kernel is being rebuilt subsystem by subsystem, with zero <code>unsafe</code> as the goal.</p>
+    <p class="cta"><a class="button" href="{{ site.repo }}">View on GitHub</a> <a class="button ghost" href="{{ '/docs/' | relative_url }}">Build it</a></p>
   </div>
 </div>
 
@@ -21,10 +22,9 @@ description: EmiBSD, a port of the OpenBSD -current kernel to Rust. Pre-alpha; i
 storage code is unaudited. Do not use it to protect real data or real networks.
 </div>
 
-OpenBSD's own userland runs on it unmodified: the system calls and everything userland sees
-match OpenBSD. Inside, the kernel is being rebuilt subsystem by subsystem, with zero `unsafe`
-as the goal. Milestones N0 to N3 (foundations and memory) are met; N4, processes and
-scheduling, is under way.
+An operating system in Rust, grown from the faithful port of the OpenBSD kernel: the system
+calls and everything userland sees match OpenBSD. Milestones N0 to N3 (bootstrap, leaves,
+foundations, memory) are met; N4, processes and scheduling, is under way.
 
 <ul class="cards">
   <li><a href="{{ '/about/' | relative_url }}"><strong>About</strong><span>Why it exists, how it started, and what Rust brings.</span></a></li>

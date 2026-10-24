@@ -169,6 +169,16 @@ a.button {
   border-radius: 6px;
 }
 a.button:hover { filter: brightness(1.1); }
+a.button { border: 1px solid var(--accent); }
+a.button.ghost { background: transparent; color: var(--accent); }
+
+.hero .cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.8rem 0 0;
+}
+.hero .cta a.button { padding: 0.4rem 0.95rem; font-size: 0.95rem; }
 
 /* The Sponsor button in the header, beside the navigation (not one of its seven entries) */
 

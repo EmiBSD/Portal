@@ -90,6 +90,12 @@ Rust does not make a kernel correct. It moves a class of bugs (use after free, d
 out-of-bounds access) from review to compile time, in the parts written in safe Rust. The rest
 is tested the old way.
 
+## The mascot
+
+Ferffy is the child of Ferris, Rust's crab, and Puffy, OpenBSD's pufferfish: the claws from one
+parent, the spikes from the other. It is an original drawing inspired by both; Puffy is
+OpenBSD's own artwork and is not modified here.
+
 ## Thanks
 
 EmiBSD would not exist without the OpenBSD project and its community. Decades of careful,

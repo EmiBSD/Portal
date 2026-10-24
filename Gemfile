@@ -11,6 +11,7 @@ gem "rouge", "3.30.0"
 
 group :jekyll_plugins do
   gem "jekyll-feed", "0.17.0"
+  gem "jekyll-sitemap", "1.4.0"
 end
 
 # Ruby 3.4+ no longer ships these as default gems; Jekyll 3 still needs them locally.

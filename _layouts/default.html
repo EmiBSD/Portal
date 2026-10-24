@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {%- comment -%} GitHub Pages sets no custom headers, so the policy travels in the page: the site's
-  own stylesheet and images, no scripts; the hashes are kramdown's text-align attributes on aligned
-  table columns. frame-ancestors is ignored in a meta tag (see README.md, Headers). {%- endcomment %}
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-hashes' 'sha256-i0JPB0qmRu5AViJTxOIzqXnfGoiWFw+oNAm4uJd7ZQk=' 'sha256-Y9v1MZrln1N8aPBY5lmpxYKwFkcp/nyBMMEnn7WFjuw=' 'sha256-6l+tpow5lGPV0MHWZlDv8nD7HrL77FGFldqQ7zc5gxY='; img-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
+  own stylesheet and images, nothing inline, no scripts. frame-ancestors is ignored in a meta tag
+  (see README.md, Headers). {%- endcomment %}
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   {% if page.url == "/" %}{% assign doc_title = site.title | append: " — " | append: site.tagline %}{% else %}{% assign doc_title = page.title | append: " · " | append: site.title %}{% endif %}
   <title>{{ doc_title }}</title>

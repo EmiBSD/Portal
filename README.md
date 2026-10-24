@@ -90,12 +90,14 @@ GitHub Pages sets the response headers and lets a site set none of its own, so
 `Access-Control-Allow-Origin: *` are what GitHub sends. What a page can carry itself, it does:
 
 - `_layouts/default.html` has a `<meta http-equiv="Content-Security-Policy">` that allows the
-  site's own stylesheet and images and nothing else (no scripts, no forms, no `<base>`). Its
-  `'unsafe-hashes'` entries are the hashes of the three `text-align` attributes kramdown writes
-  on aligned table columns; a new inline style anywhere else is blocked until its hash is added.
+  site's own stylesheet and images and nothing else: no scripts, no forms, no `<base>`, nothing
+  inline. So no `style=` attribute and no `<style>` or `<script>` element may appear in a page;
+  the build fails if one does. Kramdown's `|---:|` column alignment writes a `style` attribute,
+  so a table that needs it takes the `{: .numbers}` class instead (`assets/css/site.css`).
   Browsers ignore `frame-ancestors` in a meta tag, so clickjacking is not covered this way.
 - `404.html` replaces GitHub's own 404 page, whose policy allows inline styles.
-- `robots.txt` exists, so a crawler asking for it gets a file and not a 404.
+- `robots.txt` and `sitemap.xml` (jekyll-sitemap) exist, so a crawler asking for them gets a file
+  and not a 404.
 
 The headers themselves need something in front of GitHub Pages: Cloudflare's free plan
 (a response-header transform rule) or a host that reads a `_headers` file. The ZAP scan of

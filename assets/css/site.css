@@ -135,6 +135,10 @@ th, td {
   border-bottom: 1px solid var(--line);
 }
 th { font-weight: 600; white-space: nowrap; }
+/* Markdown tables carry no style attributes (the CSP allows none): a table marked {: .numbers}
+   right-aligns its second and third columns here instead of with kramdown's |---:| syntax. */
+.numbers th:nth-child(2), .numbers td:nth-child(2),
+.numbers th:nth-child(3), .numbers td:nth-child(3) { text-align: right; }
 
 blockquote {
   margin: 0 0 1rem;

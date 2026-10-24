@@ -61,10 +61,11 @@ cost in speed, are in [its news entry]({{ '/news/2026/10/24/n4-met/' | relative_
 Files and `unsafe` counts printed by `cargo xtask unsafe-report` at `{{ s.commit }}`.
 
 | Crate | Files | `unsafe` | Note |
-|---|---:|---:|---|
+|---|---|---|---|
 {%- for c in s.crates %}
 | `{{ c.name }}`{% if c.label %} ({{ c.label }}){% endif %} | {{ c.files }} | {{ c.unsafe }} | {{ c.note }} |
 {%- endfor %}
+{: .numbers}
 
 The detailed plan, with each milestone's exit criterion, is
 [ROADMAP.md]({{ site.repo }}/blob/main/docs/ROADMAP.md) in the Kernel repository; the day-to-day state

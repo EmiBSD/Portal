@@ -45,45 +45,29 @@ Each line is checked by a scripted QEMU boot, the smoke tests, at every mileston
 | N11 Verification | semantic `unsafe` count, idiomaticity scoring, OpenBSD's regress suite | <span class="state state-todo">pending</span> |
 | N12 Performance | the slowdowns left open after N3, on both architectures | <span class="state state-todo">pending</span> |
 
-## N4, the last milestone closed
+## N5, the next milestone
 
-N4 moved processes and scheduling out of the LandingZone tree, one slice at a time; each slice
-was merged into Kernel's `main` after its review. It was met on 2026-10-24 (tag
-[`n4-processes`]({{ site.repo }}/releases/tag/n4-processes)), on arm64:
+N5 moves the VFS and the file systems out of the LandingZone tree into `kernel::fs`. It closes
+when `sys/kern/vfs_*` and the `sys/ufs/`, `sys/nfs/`, `sys/isofs/`, `sys/msdosfs/`,
+`sys/ntfs/`, `sys/tmpfs/` and `sys/miscfs/` directories are gone from `bsd` (the plan counted
+816 `unsafe` in 134 files there), and the full test suite passes. The plan is Kernel's
+[`docs/ZERO_UNSAFE.md`]({{ site.repo }}/blob/main/docs/ZERO_UNSAFE.md) section 0.8; as in N4,
+a slice may be split or renumbered when it starts, and this table follows.
 
-- `just check`, `just ci` (67 of 86 recipes; the 19 amd64-only ones wait for N10) and
-  `just ci-full` (the same on four CPUs, then the installer) all green.
-- `diff-openbsd`: 111 steps against a real OpenBSD, 108 equal, 3 expected differences,
-  0 unexpected.
-- 105 of the 331 system calls handled natively, from 17 when N4 started.
-- The cost: against N3, the page fault is 41 % slower, pipe 35 %, fork plus exec 24 %, fork
-  plus exit 19 %, a file read 11 % (QEMU, arm64). Recorded, and handed to N12, the
-  performance milestone.
+| Slice | What moves | State |
+|---|---|---|
+| first | The five bridges N4 left open (`Uptime`, `SysInfo`, `VmProc`, `PipeGlue`, `PipeFiles`) | <span class="state state-todo">pending</span> |
+| first | The buffer queues (`kern_bufq`) over a typed `Buf` | <span class="state state-todo">pending</span> |
+| 1 | The VFS core: `vfs_subr`, `vfs_bio`, `vfs_lockf`, `vfs_syscalls`, `vfs_lookup`, `vfs_vnops`, `vfs_cache`, `vfs_init`, `vfs_sync`, `vfs_getcwd`, `vfs_vops`, `vfs_default`, `spec_vnops`; the vnode and mount operations as Rust traits | <span class="state state-todo">pending</span> |
+| 2 | `ufs`, `ffs` and `ext2fs` (43 files) | <span class="state state-todo">pending</span> |
+| 3 | `nfs` (24 files), over the sockets still in `bsd` until N6 | <span class="state state-todo">pending</span> |
+| 4 | `isofs`: cd9660 and udf (16 files) | <span class="state state-todo">pending</span> |
+| 5 | `msdosfs` (12 files) and `ntfs` (9 files) | <span class="state state-todo">pending</span> |
+| 6 | `miscfs`: fuse, fifofs, deadfs (10 files), and `tmpfs` (7 files) | <span class="state state-todo">pending</span> |
+| Close | `just check`, `just ci`, `just ci-full` and `diff-openbsd` green; the tag `n5-vfs` | <span class="state state-todo">pending</span> |
 
-| Slice | What moves | State | Merged |
-|---|---|---|---|
-| N4.0 | Only arm64 built, booted and measured until N10 (the `EMIBSD_ARCHS` switch) | <span class="state state-done">done</span> | 2026-10-21 `7bfcdfe4` |
-| N4.1 | timeout(9), task(9), extent(9) | <span class="state state-done">done</span> | 2026-10-21 `e267f8f7` |
-| N4.2 | Processes, credentials, resource limits | <span class="state state-done">done</span> | 2026-10-22 `2afaf4ff` |
-| N4.3 | File descriptors | <span class="state state-done">done</span> | 2026-10-22 `dfda0cd1` |
-| N4.4 | kqueue, select(2), poll(2) | <span class="state state-done">done</span> | 2026-10-22 `f2639a31` |
-| N4.4b | The kqueue filters as a Rust trait (`Filter<G>`) | <span class="state state-done">done</span> | 2026-10-22 `e18b851b` |
-| N4.5a | The scheduler in `kernel`; the context switch and the per-CPU core in `hal` | <span class="state state-done">done</span> | 2026-10-22 `5c81b501` |
-| N4.5b+c | Signals and SIGIO; spl, soft interrupts, the kernel lock and the mutex in `hal` | <span class="state state-done">done</span> | 2026-10-22 `0e871047` |
-| N4.6a | fork, exit, the credential and resource calls, accounting | <span class="state state-done">done</span> | 2026-10-23 `decb50c0` |
-| N4.6b | sysctl(2)'s core | <span class="state state-done">done</span> | 2026-10-23 `68dafea0` |
-| N4.6c | futex(2) | <span class="state state-done">done</span> | 2026-10-22 `cb1b9192` |
-| N4.7a | The message buffer, /dev/klog, sendsyslog(2) | <span class="state state-done">done</span> | 2026-10-22 `ae0637ec` |
-| N4.7b | Terminals, clists, line disciplines, pseudo-terminals | <span class="state state-done">done</span> | 2026-10-23 `86c282a0` |
-| N4.8a | Clocks and timecounters | <span class="state state-done">done</span> | 2026-10-23 `53c4248f` |
-| a6 | The time system calls and reboot(2) handled natively | <span class="state state-done">done</span> | 2026-10-23 `480c82e1` |
-| N4.8b | Traps, the system-call entry, copyin/copyout (arm64); a security-reviewed area | <span class="state state-done">done</span> | 2026-10-23 `d58ce5c6` |
-| N4.8d | Kernel page-table isolation (KPTI) for arm64 | <span class="state state-done">done</span> | 2026-10-23 `b38843cf` |
-| Close | `just check`, `just ci`, `just ci-full` and `diff-openbsd` green; the tag `n4-processes` | <span class="state state-done">done</span> | 2026-10-24 `2d779661` |
-
-Some moved parts still leave a thinner file in `bsd` that connects the code not yet moved to the
-new one; it goes when its last caller moves. N5, VFS and file systems, is next; its table
-replaces this one when it starts.
+N4, the milestone before, closed on 2026-10-24 in seventeen slices; its results, and what it
+cost in speed, are in [its news entry]({{ '/news/2026/10/24/n4-met/' | relative_url }}).
 
 ## The crates today
 

@@ -82,3 +82,21 @@ Every push to `main` runs `.github/workflows/jekyll.yml`, which builds the site 
 GitHub Pages (**Settings > Pages > Source: GitHub Actions**). `CNAME` holds `www.emibsd.org`,
 and `_config.yml` sets `url: "https://www.emibsd.org"` and `baseurl: ""`. The DNS for `emibsd.org` points `www` at GitHub Pages (CNAME to
 `emibsd.github.io`) and the apex at GitHub's Pages addresses, which redirect to `www`.
+
+## Headers
+
+GitHub Pages sets the response headers and lets a site set none of its own, so
+`X-Frame-Options`, `X-Content-Type-Options`, `Strict-Transport-Security` and
+`Access-Control-Allow-Origin: *` are what GitHub sends. What a page can carry itself, it does:
+
+- `_layouts/default.html` has a `<meta http-equiv="Content-Security-Policy">` that allows the
+  site's own stylesheet and images and nothing else (no scripts, no forms, no `<base>`). Its
+  `'unsafe-hashes'` entries are the hashes of the three `text-align` attributes kramdown writes
+  on aligned table columns; a new inline style anywhere else is blocked until its hash is added.
+  Browsers ignore `frame-ancestors` in a meta tag, so clickjacking is not covered this way.
+- `404.html` replaces GitHub's own 404 page, whose policy allows inline styles.
+- `robots.txt` exists, so a crawler asking for it gets a file and not a 404.
+
+The headers themselves need something in front of GitHub Pages: Cloudflare's free plan
+(a response-header transform rule) or a host that reads a `_headers` file. The ZAP scan of
+2026-10-24 (`../2026-10-24-ZAP-Report-.html`) lists what each one would close.

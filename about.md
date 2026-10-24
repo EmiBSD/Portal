@@ -94,7 +94,7 @@ is tested the old way.
 
 Ferffy is a southern king crab, the child of Ferris, Rust's crab, and Puffy, OpenBSD's
 pufferfish: the claws from one parent, the spikes from the other. It is an original drawing
-inspired by both; Puffy is OpenBSD's own artwork and is not modified here.
+inspired by both.
 
 ## Thanks
 

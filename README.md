@@ -85,20 +85,23 @@ and `_config.yml` sets `url: "https://www.emibsd.org"` and `baseurl: ""`. The DN
 
 ## Headers
 
-GitHub Pages sets the response headers and lets a site set none of its own, so
-`X-Frame-Options`, `X-Content-Type-Options`, `Strict-Transport-Security` and
-`Access-Control-Allow-Origin: *` are what GitHub sends. What a page can carry itself, it does:
+GitHub Pages sets the response headers and lets a site set none of its own. Cloudflare proxies
+`www.emibsd.org` (the DNS of `emibsd.org` is there, every record proxied, SSL/TLS Full (strict)),
+and a Response Header Transform Rule on that zone sets the headers GitHub does not:
+`Content-Security-Policy` (the policy below plus `frame-ancestors 'none'`), `X-Frame-Options: DENY`,
+`X-Content-Type-Options: nosniff`, `Strict-Transport-Security: max-age=31536000` and
+`Referrer-Policy`, and removes GitHub's `Access-Control-Allow-Origin: *`. Turning the proxy off
+loses them all; what a page can carry itself, it still does:
 
 - `_layouts/default.html` has a `<meta http-equiv="Content-Security-Policy">` that allows the
   site's own stylesheet and images and nothing else: no scripts, no forms, no `<base>`, nothing
   inline. So no `style=` attribute and no `<style>` or `<script>` element may appear in a page;
   the build fails if one does. Kramdown's `|---:|` column alignment writes a `style` attribute,
   so a table that needs it takes the `{: .numbers}` class instead (`assets/css/site.css`).
-  Browsers ignore `frame-ancestors` in a meta tag, so clickjacking is not covered this way.
+  Browsers ignore `frame-ancestors` in a meta tag, which is why the header exists.
 - `404.html` replaces GitHub's own 404 page, whose policy allows inline styles.
 - `robots.txt` and `sitemap.xml` (jekyll-sitemap) exist, so a crawler asking for them gets a file
   and not a 404.
 
-The headers themselves need something in front of GitHub Pages: Cloudflare's free plan
-(a response-header transform rule) or a host that reads a `_headers` file. The ZAP scan of
-2026-10-24 (`../2026-10-24-ZAP-Report-.html`) lists what each one would close.
+A ZAP scan of the site should report only the two informational cache alerts; a Content Security
+Policy alert means a page broke the rule above, a header alert means the proxy or its rule is off.

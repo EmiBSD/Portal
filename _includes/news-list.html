@@ -10,6 +10,6 @@
     {%- assign title = item.title -%}
     {%- assign href = item.url -%}
   {%- endif %}
-  <li><time datetime="{{ item.date }}">{{ item.date | slice: 0, 10 }}</time>{% if item.repo %}<span class="repo">{{ item.repo }}</span>{% endif %}<a href="{{ href }}">{{ title }}</a></li>
+  <li><time datetime="{{ item.date }}">{{ item.date | slice: 0, 10 }}</time>{% if item.repo %}<span class="repo">{{ item.repo }}</span> {% endif %}<a href="{{ href }}">{{ title }}</a></li>
 {%- endfor %}
 </ul>

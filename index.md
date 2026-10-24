@@ -7,7 +7,7 @@ description: EmiBSD, a port of the OpenBSD -current kernel to Rust. Pre-alpha; i
 <div class="hero">
   <picture>
     <source srcset="{{ '/assets/img/ferffy-lines-white.svg' | relative_url }}" media="(prefers-color-scheme: dark)">
-    <img src="{{ '/assets/img/ferffy-lines-black.svg' | relative_url }}" alt="Ferffy, the EmiBSD mascot: a spiky crab, drawn in line art" width="150" height="112">
+    <img src="{{ '/assets/img/ferffy-lines-black.svg' | relative_url }}" alt="Ferffy, the EmiBSD mascot: a southern king crab, drawn in line art" width="150" height="112">
   </picture>
   <div>
     <h1>EmiBSD <span class="badge">pre-alpha</span></h1>

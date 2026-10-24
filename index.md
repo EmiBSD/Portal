@@ -35,10 +35,6 @@ foundations, memory, processes) are met; N5, VFS and file systems, is next.
 
 ## Latest news
 
-<ul class="post-list">
-{% for post in site.posts limit:3 %}
-  <li><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-{% endfor %}
-</ul>
+{% include news-list.html limit=5 %}
 
 </div>

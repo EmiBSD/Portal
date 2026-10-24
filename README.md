@@ -19,9 +19,27 @@ from them at build time.
 | `contributing.md` | `/contributing/` | Contributing |
 | `support.md` | `/support/` | footer only |
 
-The navigation is the `nav` list in `_config.yml`; keep it at seven entries. A news entry is a
-file `news/_posts/YYYY-MM-DD-slug.md` with a `title` (and an optional `description`) in its
-front matter; the home page shows the latest three, `/news/feed.xml` all of them.
+The navigation is the `nav` list in `_config.yml`; keep it at seven entries.
+
+## News
+
+The devlog is `_data/news.json`, one object per line shown on the pages. The home page shows
+the latest five, `/news/` all of them, both through `_includes/news-list.html`, which sorts by
+`date`, newest first, whatever the order in the file. Fields:
+
+- `date`: ISO 8601 with the offset, as `git log -1 --date=iso-strict` prints it; the pages
+  sort by it and show its day. Keep one offset for every entry so the string order is the time
+  order.
+- `post`: the slug of a file `news/_posts/YYYY-MM-DD-slug.md` (`n4-met` for
+  `2026-10-24-n4-met.md`); the line takes that post's `title` and URL. A post has a `title`
+  and an optional `description` in its front matter; `/news/feed.xml` carries the posts only.
+- `title` and `url`, when there is no post: the line itself and where it links (a milestone's
+  tag in Kernel, its closing commit in LandingZone).
+- `repo`: `Kernel` or `LandingZone`, shown before the line when the entry is a milestone of
+  that repository.
+
+A milestone close adds its entry here, with the tag's or the commit's date, in the same change
+that updates `status.md`.
 
 `status.md` is written from the Kernel repository: the file counts of each crate and directory
 and the totals of `cargo xtask unsafe-report`, at the commit it names. Update both together.

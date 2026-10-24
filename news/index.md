@@ -4,11 +4,9 @@ description: The EmiBSD devlog - milestones, decisions and what changed.
 ---
 # News
 
-The devlog: milestones met, decisions taken, and what changed. Also available as a
+The devlog: milestones met, decisions taken, and what changed, newest first. A milestone's
+line links to the tag or the commit that closed it, in [Kernel]({{ site.repo }}) (N0..) or in
+[LandingZone]({{ site.repo_lz }}) (M0..). The longer entries are also available as a
 [feed]({{ '/news/feed.xml' | relative_url }}).
 
-<ul class="post-list">
-{% for post in site.posts %}
-  <li><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-{% endfor %}
-</ul>
+{% include news-list.html %}

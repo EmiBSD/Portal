@@ -1,0 +1,15 @@
+{%- assign items = site.data.news | sort: "date" | reverse -%}
+{%- if include.limit -%}{%- assign items = items | slice: 0, include.limit -%}{%- endif -%}
+<ul class="post-list">
+{%- for item in items %}
+  {%- if item.post -%}
+    {%- assign post = site.posts | where: "slug", item.post | first -%}
+    {%- assign title = post.title -%}
+    {%- assign href = post.url | relative_url -%}
+  {%- else -%}
+    {%- assign title = item.title -%}
+    {%- assign href = item.url -%}
+  {%- endif %}
+  <li><time datetime="{{ item.date }}">{{ item.date | slice: 0, 10 }}</time>{% if item.repo %}<span class="repo">{{ item.repo }}</span>{% endif %}<a href="{{ href }}">{{ title }}</a></li>
+{%- endfor %}
+</ul>

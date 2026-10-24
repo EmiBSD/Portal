@@ -262,6 +262,7 @@ a.button.ghost:hover { background: transparent; border-color: var(--muted); }
 .post-list { list-style: none; padding: 0; margin: 0 0 1rem; }
 .post-list li { margin: 0 0 0.6rem; }
 .post-list time { color: var(--muted); font-family: var(--mono); font-size: 0.85rem; margin-right: 0.5rem; }
+.post-list .repo { color: var(--muted); font-family: var(--mono); font-size: 0.85rem; margin-right: 0.5rem; }
 .post-meta { color: var(--muted); font-size: 0.9rem; margin: 0; }
 
 /* Status */

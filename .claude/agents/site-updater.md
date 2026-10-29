@@ -61,7 +61,10 @@ Its `README.md` table gives the milestone's title and scope.
    - `next`: the following milestone, its `name` and `slices` from ROADMAP (`slice`, `what`,
      `state` only for `done` or `in progress`). The one after that gets `state: "in progress"`
      in `milestones` only when STATUS says work on it has started.
-2. `_data/news.json`, for a LandingZone close: one object, `date` as above, `repo:
+2. `_data/news.json`, for a Kernel slice merged into `main`: one object, `date` (the merge
+   commit's, `--date=iso-strict`), `repo: "Kernel"`, `title` `N<n>.<m> done: <what moved, one
+   line>` and `url` `https://github.com/EmiBSD/Kernel/commit/<8 hex>`; and in `status.json` the
+   slice's `state: "done"`. For a LandingZone close: one object, `date` as above, `repo:
    "LandingZone"`, `title` `M<x> <Title> met: <the scope, shortened to one line>` and `url`
    `https://github.com/EmiBSD/LandingZone/commit/<8 hex>`. Kernel milestones are never written
    here: the lists take them from `status.json`.

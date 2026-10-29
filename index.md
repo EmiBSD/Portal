@@ -24,7 +24,7 @@ storage code is unaudited. Do not use it to protect real data or real networks.
 
 An operating system in Rust, grown from the faithful port of the OpenBSD kernel: the system
 calls and everything userland sees match OpenBSD. Milestones N0 to N4 (bootstrap, leaves,
-foundations, memory, processes) are met; N5, VFS and file systems, is next.
+foundations, memory, processes) are met; N5, VFS and file systems, is under way.
 
 <ul class="cards">
   <li><a href="{{ '/about/' | relative_url }}"><strong>About</strong><span>Why it exists, how it started, and what Rust brings.</span></a></li>

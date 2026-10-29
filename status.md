@@ -38,14 +38,19 @@ Each line is checked by a scripted QEMU boot, the smoke tests, at every mileston
 | {{ m.name }} {{ m.title }} | {{ m.scope }} | {% if m.date %}<span class="state state-done">done</span> {{ m.date | slice: 0, 10 }}{% elsif m.state == "in progress" %}<span class="state state-wip">in progress</span>{% else %}<span class="state state-todo">pending</span>{% endif %} |
 {%- endfor %}
 
-## {{ s.next.name }}, the next milestone
+## {{ s.next.name }}, the milestone in progress
 
-N5 moves the VFS and the file systems out of the LandingZone tree into `kernel::fs`. It closes
-when `sys/kern/vfs_*` and the `sys/ufs/`, `sys/nfs/`, `sys/isofs/`, `sys/msdosfs/`,
-`sys/ntfs/`, `sys/tmpfs/` and `sys/miscfs/` directories are gone from `bsd` (the plan counted
-816 `unsafe` in 134 files there), and the full test suite passes. The plan is Kernel's
-[`docs/ZERO_UNSAFE.md`]({{ site.repo }}/blob/main/docs/ZERO_UNSAFE.md) section 0.8; as in N4,
-a slice may be split or renumbered when it starts, and this table follows.
+N5 moves the VFS and the file systems out of the LandingZone tree into `kernel::fs`: the buffer
+cache, the vnode and mount layer, name lookup, the VFS system calls, then the file systems one
+by one. Two leave its scope (the maintainer's decisions of 2026-10-28): nfs is written over
+sockets and mbufs, so it moves with the network stack at N6; ntfs is built on amd64 only, so it
+waits for N10. Both stay in the LandingZone tree meanwhile, adapted to the kernel's VFS traits
+as they land. N5 closes when those
+directories are gone from `bsd` (the plan counts 656 `unsafe` in 126 files leaving), 65 more
+system calls are handled natively, and the full test suite passes.
+
+The slices below are N5's plan of 2026-10-28; Kernel's docs take them in at N5's close. As in
+N4, a slice may be split or renumbered when it starts, and this table follows.
 
 | Slice | What moves | State |
 |---|---|---|

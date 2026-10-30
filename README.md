@@ -96,9 +96,12 @@ and a Response Header Transform Rule on that zone sets the headers GitHub does n
 loses them all; what a page can carry itself, it still does:
 
 - `_layouts/default.html` has a `<meta http-equiv="Content-Security-Policy">` that allows the
-  site's own stylesheet and images and nothing else: no scripts, no forms, no `<base>`, nothing
-  inline. So no `style=` attribute and no `<style>` or `<script>` element may appear in a page;
-  the build fails if one does. Kramdown's `|---:|` column alignment writes a `style` attribute,
+  site's own stylesheet and images, and one script source besides the site's own: Google Tag
+  Manager (`www.googletagmanager.com`, container `GTM-WKQ3JT59`, with Google Analytics' image
+  and connect origins). No forms, no `<base>`, nothing inline: the data layer's three lines are
+  `assets/js/gtm-init.js`. So no `style=` attribute, no `<style>` element and no `<script>`
+  without a `src` may appear in a page; the build fails if one does. The Cloudflare rule's
+  header must carry the same `script-src`, `img-src` and `connect-src`, or it blocks the tag. Kramdown's `|---:|` column alignment writes a `style` attribute,
   so a table that needs it takes the `{: .numbers}` class instead (`assets/css/site.css`).
   Browsers ignore `frame-ancestors` in a meta tag, which is why the header exists.
 - `404.html` replaces GitHub's own 404 page, whose policy allows inline styles.

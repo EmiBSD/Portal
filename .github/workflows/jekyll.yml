@@ -51,8 +51,11 @@ jobs:
           JEKYLL_ENV: production
       - name: No inline style or script (the pages' Content-Security-Policy allows none)
         run: |
-          if grep -rlE ' style="|<style|<script' _site --include='*.html'; then
-            echo 'inline style or script found; see README.md, Headers' >&2; exit 1
+          if grep -rlE ' style="|<style' _site --include='*.html'; then
+            echo 'inline style found; see README.md, Headers' >&2; exit 1
+          fi
+          if grep -rhoE '<script[^>]*>' _site --include='*.html' | grep -v ' src="'; then
+            echo 'inline script found (a script must have a src); see README.md, Headers' >&2; exit 1
           fi
       - name: Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default

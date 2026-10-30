@@ -1,4 +1,6 @@
 [
+  {"date": "2026-10-29T21:09:23-03:00", "repo": "Kernel", "title": "N5.2 done: the vnode, the mount and the VFS core are the kernel's", "url": "https://github.com/EmiBSD/Kernel/commit/7a374e90"},
+  {"date": "2026-10-29T19:16:27-03:00", "repo": "Kernel", "title": "N12.1 done, brought forward: the memory map's walks at the C's cost", "url": "https://github.com/EmiBSD/Kernel/commit/a3743945"},
   {"date": "2026-10-29T08:41:57-03:00", "repo": "Kernel", "title": "N5.1 done: the buffer cache, the disk queues and physio are the kernel's", "url": "https://github.com/EmiBSD/Kernel/commit/3acd930e"},
   {"date": "2026-10-28T22:34:33-03:00", "repo": "Kernel", "title": "N5.0 done: the five bridges N4 left are the kernel's own code", "url": "https://github.com/EmiBSD/Kernel/commit/fd8e62a8"},
   {"date": "2026-10-23T23:21:53-03:00", "repo": "Kernel", "title": "N4.8d done: kernel page-table isolation on arm64", "url": "https://github.com/EmiBSD/Kernel/commit/b38843cf"},

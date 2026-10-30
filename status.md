@@ -35,7 +35,7 @@ Each line is checked by a scripted QEMU boot, the smoke tests, at every mileston
 | Milestone | Scope | State |
 |---|---|---|
 {%- for m in s.milestones %}
-| {{ m.name }} {{ m.title }} | {{ m.scope }} | {% if m.date %}<span class="state state-done">done</span> {{ m.date | slice: 0, 10 }}{% elsif m.state == "in progress" %}<span class="state state-wip">in progress</span>{% else %}<span class="state state-todo">pending</span>{% endif %} |
+| {{ m.name }} {{ m.title }} | {{ m.scope }} | {% if m.date %}<span class="state state-done">done</span> {{ m.date | slice: 0, 10 }}{% elsif m.state %}<span class="state state-wip">{{ m.state }}</span>{% else %}<span class="state state-todo">pending</span>{% endif %} |
 {%- endfor %}
 
 ## {{ s.next.name }}, the milestone in progress
@@ -57,6 +57,13 @@ N4, a slice may be split or renumbered when it starts, and this table follows.
 {%- for sl in s.next.slices %}
 | {{ sl.slice }} | {{ sl.what }} | {% if sl.state == "done" %}<span class="state state-done">done</span>{% elsif sl.state == "in progress" %}<span class="state state-wip">in progress</span>{% else %}<span class="state state-todo">pending</span>{% endif %} |
 {%- endfor %}
+
+One slice of N12, the performance milestone, was brought forward and run beside N5 (the
+maintainer's exception of 2026-10-29). N12.1 made the 13 walks over a process's memory map step
+from one entry to the next as the C does, instead of looking each next entry up again: on the
+host, with 1,024 entries in the map, mprotect(2) takes 62 % less time, madvise(2) 80 %,
+minherit(2) 66 % and mlock(2) 36 %; the other operations measured did not change. The rest of
+N12 waits for its turn.
 
 N4, the milestone before, closed on 2026-10-24 in seventeen slices; its results, and what it
 cost in speed, are in [its news entry]({{ '/news/2026/10/24/n4-met/' | relative_url }}).

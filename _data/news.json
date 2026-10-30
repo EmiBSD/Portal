@@ -1,4 +1,6 @@
 [
+  {"date": "2026-10-30T15:49:07-03:00", "repo": "Kernel", "title": "N5.4 done: the 65 VFS system calls are the kernel's, 170 of 331 entries handled natively", "url": "https://github.com/EmiBSD/Kernel/commit/6318b4e4"},
+  {"date": "2026-10-30T10:19:53-03:00", "repo": "Kernel", "title": "N5.3 done: path lookup, the name cache, getcwd and record locks are the kernel's", "url": "https://github.com/EmiBSD/Kernel/commit/681eb4aa"},
   {"date": "2026-10-29T21:09:23-03:00", "repo": "Kernel", "title": "N5.2 done: the vnode, the mount and the VFS core are the kernel's", "url": "https://github.com/EmiBSD/Kernel/commit/7a374e90"},
   {"date": "2026-10-29T19:16:27-03:00", "repo": "Kernel", "title": "N12.1 done, brought forward: the memory map's walks at the C's cost", "url": "https://github.com/EmiBSD/Kernel/commit/a3743945"},
   {"date": "2026-10-29T08:41:57-03:00", "repo": "Kernel", "title": "N5.1 done: the buffer cache, the disk queues and physio are the kernel's", "url": "https://github.com/EmiBSD/Kernel/commit/3acd930e"},

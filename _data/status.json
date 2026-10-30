@@ -1,12 +1,12 @@
 {
-  "commit": "7a374e90",
-  "date": "2026-10-29",
-  "at": "N5.2, the third slice of N5",
+  "commit": "6318b4e4",
+  "date": "2026-10-30",
+  "at": "N5.4, the fifth slice of N5",
   "crates": [
-    {"name": "kernel", "files": 108, "unsafe": 0, "note": "`#![forbid(unsafe_code)]`: the compiler refuses any"},
-    {"name": "abi", "files": 4, "unsafe": 0, "note": "`#![forbid(unsafe_code)]`; 105 of the 331 system-call entries handled natively"},
-    {"name": "hal", "files": 146, "unsafe": 185, "note": "the only crate allowed `unsafe`, each site with a written proof"},
-    {"name": "bsd", "label": "the LandingZone tree", "files": 1040, "unsafe": 9325, "note": "shrinks as subsystems move out; deleted at N9"}
+    {"name": "kernel", "files": 115, "unsafe": 0, "note": "`#![forbid(unsafe_code)]`: the compiler refuses any"},
+    {"name": "abi", "files": 4, "unsafe": 0, "note": "`#![forbid(unsafe_code)]`; 170 of the 331 system-call entries handled natively"},
+    {"name": "hal", "files": 148, "unsafe": 186, "note": "the only crate allowed `unsafe`, each site with a written proof"},
+    {"name": "bsd", "label": "the LandingZone tree", "files": 1033, "unsafe": 9257, "note": "shrinks as subsystems move out; deleted at N9"}
   ],
   "milestones": [
     {"name": "N0", "title": "Bootstrap", "scope": "lineage records, tooling, the `unsafe` budget, the baseline", "date": "2026-10-09T04:31:58-03:00", "url": "https://github.com/EmiBSD/Kernel/releases/tag/n0-bootstrap"},
@@ -29,9 +29,9 @@
       {"slice": "N5.0", "what": "The five bridges N4 left open (`Uptime`, `SysInfo`, `VmProc`, `PipeGlue`, `PipeFiles`) become the kernel's own code", "state": "done"},
       {"slice": "N5.1", "what": "The buffer cache and a typed `Buf`: `vfs_bio`, `vfs_biomem`, `kern_bufq`, `kern_physio`", "state": "done"},
       {"slice": "N5.2", "what": "The vnode, the mount and the VFS core (`vfs_subr`, `vfs_sync`, `vfs_init`, `vfs_vops`, `vfs_default`, `spec_vnops`, deadfs); the vnode and mount operations as the Rust traits `Vnops` and `Vfs`", "state": "done"},
-      {"slice": "N5.3", "what": "Names, files and record locks: `vfs_lookup`, `vfs_cache`, `vfs_getcwd`, `vfs_vnops`, `vfs_lockf`"},
-      {"slice": "N5.4", "what": "The VFS system calls (`vfs_syscalls`): 65 more entries handled natively"},
-      {"slice": "N5.5a", "what": "`ufs`, the layer the UFS family shares (16 files)"},
+      {"slice": "N5.3", "what": "Names, files and record locks: `vfs_lookup`, `vfs_cache`, `vfs_getcwd`, `vfs_vnops`, `vfs_lockf`", "state": "done"},
+      {"slice": "N5.4", "what": "The VFS system calls (`vfs_syscalls`): 65 more entries handled natively", "state": "done"},
+      {"slice": "N5.5a", "what": "`ufs`, the layer the UFS family shares (16 files)", "state": "in progress"},
       {"slice": "N5.5b", "what": "`ffs` and `mfs` (15 files)"},
       {"slice": "N5.6", "what": "`ext2fs` (16 files)"},
       {"slice": "N5.7", "what": "`msdosfs` (13 files)"},

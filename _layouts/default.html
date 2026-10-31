@@ -4,9 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   {%- comment -%} GitHub Pages sets no custom headers, so the policy travels in the page: the site's
-  own stylesheet and images, nothing inline; the only scripts are Google Tag Manager's and the
-  site's own data-layer file. frame-ancestors is ignored in a meta tag (see README.md, Headers). {%- endcomment %}
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://www.googletagmanager.com; style-src 'self'; img-src 'self' https://www.googletagmanager.com https://*.google-analytics.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; base-uri 'none'; form-action 'none'">
+  own stylesheet and images, nothing inline; the only script is the Cloudflare Web Analytics beacon
+  the proxy injects. frame-ancestors is ignored in a meta tag (see README.md, Headers). {%- endcomment %}
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self'; img-src 'self'; connect-src 'self' https://cloudflareinsights.com; base-uri 'none'; form-action 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   {% if page.url == "/" %}{% assign doc_title = site.title | append: " — " | append: site.tagline %}{% else %}{% assign doc_title = page.title | append: " · " | append: site.title %}{% endif %}
   <title>{{ doc_title }}</title>
@@ -16,8 +16,6 @@
   <link rel="icon" type="image/png" href="{{ '/assets/img/favicon.png' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}?v={{ site.time | date: '%Y%m%d%H%M%S' }}">
   {% feed_meta %}
-  <script src="{{ '/assets/js/gtm-init.js' | relative_url }}"></script>
-  <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-WKQ3JT59"></script>
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>

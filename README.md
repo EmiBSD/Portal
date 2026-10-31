@@ -96,12 +96,13 @@ and a Response Header Transform Rule on that zone sets the headers GitHub does n
 loses them all; what a page can carry itself, it still does:
 
 - `_layouts/default.html` has a `<meta http-equiv="Content-Security-Policy">` that allows the
-  site's own stylesheet and images, and one script source besides the site's own: Google Tag
-  Manager (`www.googletagmanager.com`, container `GTM-WKQ3JT59`, with Google Analytics' image
-  and connect origins). No forms, no `<base>`, nothing inline: the data layer's three lines are
-  `assets/js/gtm-init.js`. So no `style=` attribute, no `<style>` element and no `<script>`
+  site's own stylesheet and images, and one script source besides the site's own: the Cloudflare
+  Web Analytics beacon (`static.cloudflareinsights.com`, reporting to `cloudflareinsights.com`),
+  which the proxy injects into each page with an `integrity` attribute. No forms, no `<base>`,
+  nothing inline. So no `style=` attribute, no `<style>` element and no `<script>`
   without a `src` may appear in a page; the build fails if one does. The Cloudflare rule's
-  header must carry the same `script-src`, `img-src` and `connect-src`, or it blocks the tag. Kramdown's `|---:|` column alignment writes a `style` attribute,
+  header must carry the same `script-src` and `connect-src`, or it blocks the beacon; a browser
+  applies the header and the meta tag both, so a source missing from either is blocked. Kramdown's `|---:|` column alignment writes a `style` attribute,
   so a table that needs it takes the `{: .numbers}` class instead (`assets/css/site.css`).
   Browsers ignore `frame-ancestors` in a meta tag, which is why the header exists.
 - `404.html` replaces GitHub's own 404 page, whose policy allows inline styles.

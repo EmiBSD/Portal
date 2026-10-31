@@ -1,4 +1,5 @@
 [
+  {"date": "2026-10-31T16:29:19-03:00", "repo": "Kernel", "title": "N5.5b0 done: the UFS mount is a counted handle in the mount's typed slot, no raw word cast back", "url": "https://github.com/EmiBSD/Kernel/commit/ae84127f"},
   {"date": "2026-10-31T08:44:01-03:00", "repo": "Kernel", "title": "N5.5a done: the UFS layer, lookup and the vnode operations included, is the kernel's", "url": "https://github.com/EmiBSD/Kernel/commit/7a063ff3"},
   {"date": "2026-10-31T05:26:27-03:00", "repo": "Kernel", "title": "N5.5a2c done: a credential crosses the file systems as a typed Cred, no raw pointer", "url": "https://github.com/EmiBSD/Kernel/commit/9458a05a"},
   {"date": "2026-10-31T02:54:37-03:00", "repo": "Kernel", "title": "N5.5a2 done: quotas, dirhash and the inode's life cycle are the kernel's", "url": "https://github.com/EmiBSD/Kernel/commit/dd446fb0"},

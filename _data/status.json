@@ -1,12 +1,12 @@
 {
-  "commit": "7a063ff3",
+  "commit": "ae84127f",
   "date": "2026-10-31",
-  "at": "N5.5a done; N5.5b next",
+  "at": "N5.5b0, the mount's typed slot",
   "crates": [
     {"name": "kernel", "files": 133, "unsafe": 0, "note": "`#![forbid(unsafe_code)]`: the compiler refuses any"},
     {"name": "abi", "files": 4, "unsafe": 0, "note": "`#![forbid(unsafe_code)]`; 170 of the 331 system-call entries handled natively"},
-    {"name": "hal", "files": 148, "unsafe": 186, "note": "the only crate allowed `unsafe`, each site with a written proof"},
-    {"name": "bsd", "label": "the LandingZone tree", "files": 1033, "unsafe": 9163, "note": "shrinks as subsystems move out; deleted at N9"}
+    {"name": "hal", "files": 148, "unsafe": 193, "note": "the only crate allowed `unsafe`, each site with a written proof"},
+    {"name": "bsd", "label": "the LandingZone tree", "files": 1033, "unsafe": 9157, "note": "shrinks as subsystems move out; deleted at N9"}
   ],
   "milestones": [
     {"name": "N0", "title": "Bootstrap", "scope": "lineage records, tooling, the `unsafe` budget, the baseline", "date": "2026-10-09T04:31:58-03:00", "url": "https://github.com/EmiBSD/Kernel/releases/tag/n0-bootstrap"},
@@ -32,7 +32,7 @@
       {"slice": "N5.3", "what": "Names, files and record locks: `vfs_lookup`, `vfs_cache`, `vfs_getcwd`, `vfs_vnops`, `vfs_lockf`", "state": "done"},
       {"slice": "N5.4", "what": "The VFS system calls (`vfs_syscalls`): 65 more entries handled natively", "state": "done"},
       {"slice": "N5.5a", "what": "`ufs`, the layer the UFS family shares (16 files), in three parts: the inode, its mount, the inode hash and bmap (done); quotas, dirhash and the inode's life cycle (done); the credentials' sweep (done); lookup and the vnode operations (done)", "state": "done"},
-      {"slice": "N5.5b", "what": "`ffs` and `mfs` (15 files)"},
+      {"slice": "N5.5b", "what": "`ffs` and `mfs` (15 files): the mount's typed slot and the counted UFS mount (done); the rest in three parts", "state": "in progress"},
       {"slice": "N5.6", "what": "`ext2fs` (16 files)"},
       {"slice": "N5.7", "what": "`msdosfs` (13 files)"},
       {"slice": "N5.8", "what": "`isofs`: cd9660 and udf (18 files)"},

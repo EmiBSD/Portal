@@ -16,6 +16,7 @@ repo_lz: https://github.com/EmiBSD/LandingZone
 repo_userland: https://github.com/EmiBSD/Userland
 repo_devtools: https://github.com/EmiBSD/DevTools
 repo_os: https://github.com/EmiBSD/OS
+repo_governance: https://github.com/EmiBSD/Governance
 repo_org: https://github.com/EmiBSD
 
 markdown: kramdown

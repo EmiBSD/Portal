@@ -29,6 +29,7 @@ The repositories live in the [EmiBSD organisation]({{ site.repo_org }}) on GitHu
 | [Userland]({{ site.repo_userland }}) | the base system above the kernel: every program, library and configuration file placed by what it does, not by where history left it |
 | [DevTools]({{ site.repo_devtools }}) | the toolchains, imported and built once: LLVM as OpenBSD ships it for the C, and a pinned stable Rust with its `std` for `aarch64-unknown-openbsd` |
 | [OS]({{ site.repo_os }}) | the assembly and the releases: a manifest pins one commit of each of the three, the recipes build where they build, assemble the sets and media, boot them and tag `YEAR.MONTH`; nothing released yet |
+| [Governance]({{ site.repo_governance }}) | what binds the rest: the invariants every repository obeys, the process, the architecture of the repositories, the roadmap across them, the decision log and the policies |
 
 The forks beside them (`OpenBSD-src`, `rust`, `llvm-project`, `cargo`) are read-only mirrors of
 the sources the repositories pin; nothing of EmiBSD's is committed to them.
@@ -97,7 +98,8 @@ dropped with a reason. The tooling can answer where any LandingZone or OpenBSD f
 The redesign is carried out by AI coding agents (Claude Code), each with a fixed role and a
 shared rulebook that lives in the repository. One human maintainer takes the decisions: scope,
 dependencies, the `unsafe` ceilings, anything userland could see. They see every plan and
-approve every commit.
+approve every commit. The rules that cross repositories, and every decision that does, are
+public in [Governance]({{ site.repo_governance }}), one file per decision, numbered and dated.
 
 | Role | Does |
 |---|---|

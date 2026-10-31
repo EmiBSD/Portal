@@ -38,6 +38,7 @@ feed:
 # Jekyll 3 replaces its default exclude list when this key is set, so it is repeated here.
 exclude:
   - README.md
+  - tools
   - Gemfile
   - Gemfile.lock
   - vendor

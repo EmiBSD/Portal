@@ -6,19 +6,13 @@ description: The EmiBSD pipeline - LandingZone as the 1:1 port, Kernel as the re
 
 ## The pipeline
 
-```
-OpenBSD C (-current, pinned)      the specification
-        │  ported file by file
-        ▼
-LandingZone                       the landing zone: a 1:1 port, C's shape in Rust
-        │  synced commit by commit
-        ▼
-Kernel                            the redesign: same behaviour, Rust's shape inside
-        │
-        ├── Userland              the base system above the kernel, one tree ordered by purpose
-        ├── DevTools              the toolchains that build both, imported and built once
-        └── OS                    the assembly: pins of the three, the sets, the media, the release
-```
+<figure class="diagram">
+  <picture>
+    <source srcset="{{ '/assets/img/pipeline-dark.svg' | relative_url }}" media="(prefers-color-scheme: dark)">
+    <img src="{{ '/assets/img/pipeline.svg' | relative_url }}" alt="OpenBSD's pinned C is ported file by file into LandingZone, which is synced commit by commit into Kernel. The same C feeds Userland, the base system, and DevTools, the toolchains, which build Userland and Kernel. Kernel, Userland and DevTools feed OS, the assembly and the release." width="643" height="547">
+  </picture>
+  <figcaption>The specification, the port, the redesign; the base system and the toolchains beside them; the assembly at the end.</figcaption>
+</figure>
 
 The repositories live in the [EmiBSD organisation]({{ site.repo_org }}) on GitHub:
 

@@ -110,3 +110,11 @@ loses them all; what a page can carry itself, it still does:
 
 A ZAP scan of the site should report only the two informational cache alerts; a Content Security
 Policy alert means a page broke the rule above, a header alert means the proxy or its rule is off.
+
+## Diagrams
+
+GitHub Pages renders no Mermaid and the site's CSP allows no inline styles, so diagrams are
+rendered here and committed: the sources are `_diagrams/*.mmd` with the site's palette in
+`_diagrams/theme-{light,dark}.json`; `tools/diagrams.sh` (needs `mermaid-cli`,
+`npm install -g @mermaid-js/mermaid-cli`) writes `assets/img/<name>.svg` and `<name>-dark.svg`;
+a page shows them with `<picture>` and a `prefers-color-scheme` source, inside `<figure class="diagram">`.

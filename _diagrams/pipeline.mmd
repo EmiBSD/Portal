@@ -1,0 +1,17 @@
+%% The pipeline, as docs/architecture.md of Governance draws it. Rendered by tools/diagrams.sh
+%% into assets/img/pipeline.svg and pipeline-dark.svg; process.md shows them with <picture>.
+flowchart TB
+    obsd["OpenBSD C, pinned<br/>the specification"]
+    lz["LandingZone<br/>the 1:1 port, C's shape in Rust"]
+    k["Kernel<br/>the redesign, Rust's shape inside"]
+    ul["Userland<br/>the base system, ordered by purpose"]
+    dev["DevTools<br/>the toolchains that build both"]
+    os["OS<br/>pins, sets, media, the release"]
+
+    obsd -- "ported file by file" --> lz
+    lz -- "synced commit by commit" --> k
+    obsd -- "the base system's C" --> ul
+    obsd -- "gnu/llvm" --> dev
+    k --> os
+    ul --> os
+    dev --> os

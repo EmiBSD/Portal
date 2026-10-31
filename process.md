@@ -16,7 +16,8 @@ LandingZone                       the landing zone: a 1:1 port, C's shape in Rus
 Kernel                            the redesign: same behaviour, Rust's shape inside
         │
         ├── Userland              the base system above the kernel, one tree ordered by purpose
-        └── DevTools              the toolchains that build both, imported and built once
+        ├── DevTools              the toolchains that build both, imported and built once
+        └── OS                    the assembly: pins of the three, the sets, the media, the release
 ```
 
 The repositories live in the [EmiBSD organisation]({{ site.repo_org }}) on GitHub:
@@ -27,6 +28,7 @@ The repositories live in the [EmiBSD organisation]({{ site.repo_org }}) on GitHu
 | [Kernel]({{ site.repo }}) | the redesign of that port into four crates, subsystem by subsystem |
 | [Userland]({{ site.repo_userland }}) | the base system above the kernel: every program, library and configuration file placed by what it does, not by where history left it |
 | [DevTools]({{ site.repo_devtools }}) | the toolchains, imported and built once: LLVM as OpenBSD ships it for the C, and a pinned stable Rust with its `std` for `aarch64-unknown-openbsd` |
+| [OS]({{ site.repo_os }}) | the assembly and the releases: a manifest pins one commit of each of the three, the recipes build where they build, assemble the sets and media, boot them and tag `YEAR.MONTH`; nothing released yet |
 
 The forks beside them (`OpenBSD-src`, `rust`, `llvm-project`, `cargo`) are read-only mirrors of
 the sources the repositories pin; nothing of EmiBSD's is committed to them.
@@ -74,6 +76,14 @@ written: LLVM as OpenBSD ships it, with OpenBSD's patches, for the C; and rust-l
 pinned stable tag, built with its own LLVM, so that `aarch64-unknown-openbsd`, a tier 3 target,
 gets its standard library from a stable release's source without nightly. Built once, released
 as artifacts the other repositories consume.
+
+### OS, the assembly
+
+[OS]({{ site.repo_os }}) builds nothing of its own. Its manifest pins one commit of Kernel,
+Userland and DevTools and records the OpenBSD pin they share; its recipes fetch them, delegate
+each build to its repository, assemble the install sets and the media, boot them in QEMU,
+compare the installed system with a real OpenBSD and tag the release as `YEAR.MONTH`. Nothing
+has been released; the first milestone is the pinned Kernel booting from a clean clone.
 
 ### Provenance
 

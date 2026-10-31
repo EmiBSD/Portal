@@ -45,7 +45,8 @@ The kernel's work happens in two stages, in two repositories:
 Two more repositories sit around the kernel: [Userland]({{ site.repo_userland }}), the base
 system above it, one tree where every program is placed by what it does; and
 [DevTools]({{ site.repo_devtools }}), the toolchains that build everything, imported and built
-once. The [Process]({{ '/process/' | relative_url }}) page describes each.
+once. [OS]({{ site.repo_os }}) assembles the three into a system and will cut the releases. The
+[Process]({{ '/process/' | relative_url }}) page describes each.
 
 Three things are never traded away during the redesign:
 

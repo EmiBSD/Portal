@@ -11,6 +11,9 @@ flowchart TB
     obsd -- "ported file by file" --> lz
     lz -- "synced commit by commit" --> k
     obsd -- "the base system's C" --> ul
+    lz -. "the pin" .-> ul
+    dev -- "the toolchain" --> k
+    dev -- "the toolchain" --> ul
     k --> os
     ul --> os
-    dev --> os
+    dev -- "the comp set" --> os

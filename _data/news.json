@@ -1,4 +1,7 @@
 [
+  {"date": "2026-10-31T08:44:01-03:00", "repo": "Kernel", "title": "N5.5a done: the UFS layer, lookup and the vnode operations included, is the kernel's", "url": "https://github.com/EmiBSD/Kernel/commit/7a063ff3"},
+  {"date": "2026-10-31T05:26:27-03:00", "repo": "Kernel", "title": "N5.5a2c done: a credential crosses the file systems as a typed Cred, no raw pointer", "url": "https://github.com/EmiBSD/Kernel/commit/9458a05a"},
+  {"date": "2026-10-31T02:54:37-03:00", "repo": "Kernel", "title": "N5.5a2 done: quotas, dirhash and the inode's life cycle are the kernel's", "url": "https://github.com/EmiBSD/Kernel/commit/dd446fb0"},
   {"date": "2026-10-31T00:02:46-03:00", "repo": "Kernel", "title": "N5.5a1 done: the UFS inode, its mount, the inode hash and bmap are the kernel's; ffs, ext2fs and mfs run on them", "url": "https://github.com/EmiBSD/Kernel/commit/2c1d8144"},
   {"date": "2026-10-30T15:49:07-03:00", "repo": "Kernel", "title": "N5.4 done: the 65 VFS system calls are the kernel's, 170 of 331 entries handled natively", "url": "https://github.com/EmiBSD/Kernel/commit/6318b4e4"},
   {"date": "2026-10-30T10:19:53-03:00", "repo": "Kernel", "title": "N5.3 done: path lookup, the name cache, getcwd and record locks are the kernel's", "url": "https://github.com/EmiBSD/Kernel/commit/681eb4aa"},

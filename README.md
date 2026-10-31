@@ -106,8 +106,11 @@ loses them all; what a page can carry itself, it still does:
   so a table that needs it takes the `{: .numbers}` class instead (`assets/css/site.css`).
   Browsers ignore `frame-ancestors` in a meta tag, which is why the header exists.
 - `404.html` replaces GitHub's own 404 page, whose policy allows inline styles.
-- `robots.txt` and `sitemap.xml` (jekyll-sitemap) exist, so a crawler asking for them gets a file
-  and not a 404.
+- `robots.txt` carries only the `Sitemap:` line (`sitemap.xml` is jekyll-sitemap's). Cloudflare's
+  Bot Preference Sync, with the Training policy on Disallow, prepends its own block to the file it
+  serves: a `User-agent: *` group with the Content-Signal and `Allow: /`, then a `Disallow: /` per
+  AI training crawler. The repo's file has no group of its own so the served file has one, and
+  with Cloudflare's block gone a file with no group allows everything.
 
 A ZAP scan of the site should report only the two informational cache alerts; a Content Security
 Policy alert means a page broke the rule above, a header alert means the proxy or its rule is off.

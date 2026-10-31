@@ -9,7 +9,7 @@ description: The EmiBSD pipeline - LandingZone as the 1:1 port, Kernel as the re
 <figure class="diagram">
   <picture>
     <source srcset="{{ '/assets/img/pipeline-dark.svg' | relative_url }}" media="(prefers-color-scheme: dark)">
-    <img src="{{ '/assets/img/pipeline.svg' | relative_url }}" alt="OpenBSD's pinned C is ported file by file into LandingZone, which is synced commit by commit into Kernel. The same C feeds Userland, the base system, and DevTools, the toolchains, which build Userland and Kernel. Kernel, Userland and DevTools feed OS, the assembly and the release." width="643" height="547">
+    <img src="{{ '/assets/img/pipeline.svg' | relative_url }}" alt="OpenBSD's pinned C is ported file by file into LandingZone, which is synced commit by commit into Kernel. The same C feeds Userland, the base system. DevTools, the toolchains that build both, comes from LLVM's and Rust's own sources. Kernel, Userland and DevTools feed OS, the assembly and the release." width="643" height="547">
   </picture>
   <figcaption>The specification, the port, the redesign; the base system and the toolchains beside them; the assembly at the end.</figcaption>
 </figure>
@@ -76,7 +76,7 @@ repositories consume.
 ### OS, the assembly
 
 [OS]({{ site.repo_os }}) builds nothing of its own. Its manifest pins one commit of Kernel,
-Userland and DevTools and records the OpenBSD pin they share; its recipes fetch them, delegate
+Userland and DevTools and records the OpenBSD pin Kernel and Userland share; its recipes fetch them, delegate
 each build to its repository, assemble the install sets and the media, boot them in QEMU,
 compare the installed system with a real OpenBSD and tag the release as `YEAR.MONTH`. Nothing
 has been released; the first milestone is the pinned Kernel booting from a clean clone.

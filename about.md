@@ -34,13 +34,18 @@ described on the [Process]({{ '/process/' | relative_url }}) page.
 
 ## Fidelity first, optimisation after
 
-The work happens in two stages, in two repositories:
+The kernel's work happens in two stages, in two repositories:
 
 1. **Fidelity.** [LandingZone]({{ site.repo_lz }}) (formerly EmiBSD.LZ) is a file-by-file port of the OpenBSD kernel to
    Rust. It keeps the C's structure, names and control flow, so every Rust file can be checked
    against the C file it came from.
 2. **Redesign.** [Kernel]({{ site.repo }}) takes what LandingZone ported and rebuilds the inside, one
    subsystem at a time, with Rust's ownership in place of the C's conventions.
+
+Two more repositories sit around the kernel: [Userland]({{ site.repo_userland }}), the base
+system above it, one tree where every program is placed by what it does; and
+[DevTools]({{ site.repo_devtools }}), the toolchains that build everything, imported and built
+once. The [Process]({{ '/process/' | relative_url }}) page describes each.
 
 Three things are never traded away during the redesign:
 

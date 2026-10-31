@@ -61,8 +61,8 @@ machines are welcome, since its behaviour is the specification.
   <dt>Is there a release, an image or a package?</dt>
   <dd>No. You build it from the repository; see <a href="{{ '/docs/' | relative_url }}">Docs</a>.</dd>
 
-  <dt>Why two repositories, LandingZone and Kernel?</dt>
-  <dd><a href="{{ site.repo_lz }}">LandingZone</a> (formerly EmiBSD.LZ) ports OpenBSD faithfully, file by file; <a href="{{ site.repo }}">Kernel</a> redesigns what LandingZone ported. Keeping them apart keeps the faithful port checkable against the C. See <a href="{{ '/process/' | relative_url }}">Process</a>.</dd>
+  <dt>Why several repositories?</dt>
+  <dd>Each holds one thing. <a href="{{ site.repo_lz }}">LandingZone</a> (formerly EmiBSD.LZ) ports OpenBSD's kernel faithfully, file by file; <a href="{{ site.repo }}">Kernel</a> redesigns what LandingZone ported, and keeping the two apart keeps the port checkable against the C. <a href="{{ site.repo_userland }}">Userland</a> is the base system above the kernel and <a href="{{ site.repo_devtools }}">DevTools</a> the toolchains that build it all. See <a href="{{ '/process/' | relative_url }}">Process</a>.</dd>
 
   <dt>Is AI used to write the code?</dt>
   <dd>Yes. The redesign is carried out by AI coding agents under fixed roles and written rules; one maintainer takes the decisions and approves every commit.</dd>

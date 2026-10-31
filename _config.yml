@@ -13,6 +13,9 @@ timezone: UTC
 
 repo: https://github.com/EmiBSD/Kernel
 repo_lz: https://github.com/EmiBSD/LandingZone
+repo_userland: https://github.com/EmiBSD/Userland
+repo_devtools: https://github.com/EmiBSD/DevTools
+repo_org: https://github.com/EmiBSD
 
 markdown: kramdown
 kramdown:

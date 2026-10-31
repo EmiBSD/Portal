@@ -1,6 +1,6 @@
 ---
 title: Process
-description: The EmiBSD pipeline - LandingZone as the 1:1 port, Kernel as the redesigned system, the migration agents, and how the work to optimise is chosen.
+description: The EmiBSD pipeline - LandingZone as the 1:1 port, Kernel as the redesigned system, Userland and DevTools around it, the migration agents, and how the work to optimise is chosen.
 ---
 # Process
 
@@ -14,9 +14,22 @@ LandingZone                       the landing zone: a 1:1 port, C's shape in Rus
         │  synced commit by commit
         ▼
 Kernel                            the redesign: same behaviour, Rust's shape inside
+        │
+        ├── Userland              the base system above the kernel, one tree ordered by purpose
+        └── DevTools              the toolchains that build both, imported and built once
 ```
 
-Both repositories live in the [EmiBSD organisation](https://github.com/EmiBSD) on GitHub.
+The repositories live in the [EmiBSD organisation]({{ site.repo_org }}) on GitHub:
+
+| Repository | What it holds |
+|---|---|
+| [LandingZone]({{ site.repo_lz }}) | the faithful port of the OpenBSD kernel, one C file to one Rust file |
+| [Kernel]({{ site.repo }}) | the redesign of that port into four crates, subsystem by subsystem |
+| [Userland]({{ site.repo_userland }}) | the base system above the kernel: every program, library and configuration file placed by what it does, not by where history left it |
+| [DevTools]({{ site.repo_devtools }}) | the toolchains, imported and built once: LLVM as OpenBSD ships it for the C, and a pinned stable Rust with its `std` for `aarch64-unknown-openbsd` |
+
+The forks beside them (`OpenBSD-src`, `rust`, `llvm-project`, `cargo`) are read-only mirrors of
+the sources the repositories pin; nothing of EmiBSD's is committed to them.
 
 ### LandingZone, the port
 
@@ -44,6 +57,23 @@ narrow, registered bridge, never a direct call.
 LandingZone keeps porting after the split. Every LandingZone commit is triaged in Kernel: applied, re-implemented in
 the new shape, already covered by the redesign, or not applicable, with the reason recorded.
 A security fix is never skipped silently.
+
+### Userland, the base system
+
+[Userland]({{ site.repo_userland }}) is where the system above the kernel takes shape. Its one
+decision so far is order: OpenBSD's tree grew by accretion (`bin`, `sbin`, `usr.bin`, `usr.sbin`,
+`libexec`, programs side by side with no grouping); Userland's tree places every one of them by
+what it does, with a catalogue that maps each OpenBSD program to exactly one place. Its shape is
+settled; its content is at the start. Until it boots, the system runs OpenBSD's own userland,
+built unmodified from the pinned source.
+
+### DevTools, the toolchains
+
+[DevTools]({{ site.repo_devtools }}) holds what compiles the rest, all of it imported, nothing
+written: LLVM as OpenBSD ships it, with OpenBSD's patches, for the C; and rust-lang/rust at a
+pinned stable tag, built with its own LLVM, so that `aarch64-unknown-openbsd`, a tier 3 target,
+gets its standard library from a stable release's source without nightly. Built once, released
+as artifacts the other repositories consume.
 
 ### Provenance
 

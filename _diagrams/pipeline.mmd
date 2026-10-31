@@ -5,13 +5,12 @@ flowchart TB
     lz["LandingZone<br/>the 1:1 port, C's shape in Rust"]
     k["Kernel<br/>the redesign, Rust's shape inside"]
     ul["Userland<br/>the base system, ordered by purpose"]
-    dev["DevTools<br/>the toolchains that build both"]
+    dev["DevTools<br/>the toolchains that build both,<br/>from LLVM's and Rust's own sources"]
     os["OS<br/>pins, sets, media, the release"]
 
     obsd -- "ported file by file" --> lz
     lz -- "synced commit by commit" --> k
     obsd -- "the base system's C" --> ul
-    obsd -- "gnu/llvm" --> dev
     k --> os
     ul --> os
     dev --> os

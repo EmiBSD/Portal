@@ -21,7 +21,7 @@ The repositories live in the [EmiBSD organisation]({{ site.repo_org }}) on GitHu
 | [LandingZone]({{ site.repo_lz }}) | the faithful port of the OpenBSD kernel, one C file to one Rust file |
 | [Kernel]({{ site.repo }}) | the redesign of that port into four crates, subsystem by subsystem |
 | [Userland]({{ site.repo_userland }}) | the base system above the kernel: every program, library and configuration file placed by what it does, not by where history left it |
-| [DevTools]({{ site.repo_devtools }}) | the toolchains, imported and built once: LLVM as OpenBSD ships it for the C, and a pinned stable Rust with its `std` for `aarch64-unknown-openbsd` |
+| [DevTools]({{ site.repo_devtools }}) | the toolchains, imported and built once from the forks alone: upstream LLVM for the C and as rustc's backend, and a pinned stable Rust with its `std` for `aarch64-unknown-openbsd` |
 | [OS]({{ site.repo_os }}) | the assembly and the releases: a manifest pins one commit of each of the three, the recipes build where they build, assemble the sets and media, boot them and tag `YEAR.MONTH`; nothing released yet |
 | [Governance]({{ site.repo_governance }}) | what binds the rest: the invariants every repository obeys, the process, the architecture of the repositories, the roadmap across them, the decision log and the policies |
 
@@ -67,10 +67,11 @@ built unmodified from the pinned source.
 ### DevTools, the toolchains
 
 [DevTools]({{ site.repo_devtools }}) holds what compiles the rest, all of it imported, nothing
-written: LLVM as OpenBSD ships it, with OpenBSD's patches, for the C; and rust-lang/rust at a
-pinned stable tag, built with its own LLVM, so that `aarch64-unknown-openbsd`, a tier 3 target,
-gets its standard library from a stable release's source without nightly. Built once, released
-as artifacts the other repositories consume.
+written, and nothing of it from OpenBSD: upstream LLVM at a pinned release, one compiler for
+the C and the backend of rustc; and rust-lang/rust at a pinned stable tag, built against that
+LLVM, so that `aarch64-unknown-openbsd`, a tier 3 target, gets its standard library from a
+stable release's source without nightly. Built once, released as artifacts the other
+repositories consume.
 
 ### OS, the assembly
 

@@ -98,7 +98,8 @@ is tested the old way.
 
 ## The mascot
 
-Ferffy is a southern king crab, the child of Ferris, Rust's crab, and Puffy, OpenBSD's
+Ferffy is a [centolla](https://en.wikipedia.org/wiki/Lithodes_santolla), the king crab of
+Chile's southern seas, the child of Ferris, Rust's crab, and Puffy, OpenBSD's
 pufferfish: the claws from one parent, the spikes from the other. It is an original drawing
 inspired by both.
 
